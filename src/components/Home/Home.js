@@ -13,22 +13,10 @@ const Home = () => {
 
   const handleChange = (e) => {
     setSearch(e.target.value);
-    // e.preventDefault();
-    // fetch(
-    //   `https://trefle.io/api/v1/plants/search?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&q=${search}`
-    // )
-    //   .then((res) => res.json())
-    //   .then((result) => console.log(`result: ${result}`));
   };
 
   const handleSubmit = (e) => {
-    // const fetch = require("node-fetch");
     e.preventDefault();
-    // fetch(
-    //   `https://trefle.io/api/v1/plants/search?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&q=${search}`
-    // )
-    //   .then((res) => res.json())
-    //   .then((result) => console.log(`result: ${result}`));
   };
 
   useEffect(() => {
