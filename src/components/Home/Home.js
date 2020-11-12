@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import SearchForm from "../../SearchForm/SearchForm";
+import SearchForm from "../SearchForm/SearchForm";
+import SearchResults from "../SearchResults/SearchResults";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -7,6 +8,7 @@ const Home = () => {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+
   // Note: the empty deps array [] means
   // this useEffect will run once
   // similar to componentDidMount()
@@ -56,7 +58,6 @@ const Home = () => {
   const nextPage = () => {
     let newPage = page;
     setPage((newPage += 1));
-    console.log(page);
   };
 
   if (error) {
@@ -71,20 +72,7 @@ const Home = () => {
           onChange={handleChange}
           onSubmit={handleSubmit}
         />
-        <ul>
-          {items.map((item) => (
-            <li key={item.id}>
-              {item.common_name}
-              <img
-                src={item.image_url}
-                alt="plant"
-                width="100px"
-                height="auto"
-              />
-            </li>
-          ))}
-        </ul>
-        <button onClick={nextPage}>next page</button>
+        <SearchResults resultItems={items} pages={nextPage} />
       </div>
     );
   }

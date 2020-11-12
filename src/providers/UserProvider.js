@@ -9,7 +9,8 @@ const UserProvider = (props) => {
     auth.onAuthStateChanged((userAuth) => {
       setUser(userAuth);
     });
-  }, [user]);
+  });
+  console.log("user status: " + user);
 
   return (
     <div>
