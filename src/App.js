@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
@@ -7,19 +7,20 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
 import UserProvider from "./providers/UserProvider";
-import { auth } from "./firebase";
+import { auth, generateUserDocument } from "./firebase";
 import "./App.css";
 
 const App = () => {
   const [authState, setAuthState] = useState({});
 
   useEffect(() => {
-    const clearObserver = auth.onAuthStateChanged((user) => {
-      if (user) {
+    const clearUser = auth.onAuthStateChanged((userAuth) => {
+      const user = generateUserDocument(userAuth);
+      if (userAuth) {
         setAuthState({
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          email: user.email,
+          displayName: userAuth.displayName,
+          photoURL: userAuth.photoURL,
+          email: userAuth.email,
           authenticated: true,
         });
       } else {
@@ -32,7 +33,7 @@ const App = () => {
       }
     });
     return () => {
-      clearObserver();
+      clearUser();
     };
   }, []);
 
@@ -43,7 +44,7 @@ const App = () => {
     return <h1>Plants</h1>;
   };
   const login = () => {
-    return <LoginForm />;
+    return <LoginForm userStatus={authState} />;
   };
   const register = () => {
     return <RegisterForm />;

@@ -21,3 +21,38 @@ export const firestore = firebase.firestore();
 export const signInWithGoogle = () => {
   auth.signInWithPopup(provider);
 };
+
+// create a collection for the users which contains docs for each user
+export const generateUserDocument = async (user, additionalData) => {
+  if (!user) return;
+  // create reference to the user's document in the users collection
+  const userRef = firestore.doc(`users/${user.uid}`);
+  const snapshot = await userRef.get();
+  if (!snapshot.exists) {
+    const { email, displayName, photoURL } = user;
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        photoURL,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log("error firebase line 41: " + error);
+    }
+  }
+  return getUserDocument(user.uid);
+};
+
+const getUserDocument = async (uid) => {
+  if (!uid) return null;
+  try {
+    const userDocument = await firestore.doc(`users/${uid}`).get();
+    return {
+      uid,
+      ...userDocument.data(),
+    };
+  } catch (error) {
+    console.log("error fetching: " + error);
+  }
+};

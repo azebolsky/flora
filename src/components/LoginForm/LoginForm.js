@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { signInWithGoogle } from "../../firebase";
+import { Link, Redirect } from "react-router-dom";
+import { signInWithGoogle, auth } from "../../firebase";
 
-const LoginForm = () => {
+const LoginForm = ({ userStatus }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-  const SubmitWithUsernameAndPassword = (event, email, password) => {
+  const submitWithUsernameAndPasswordHandler = (event, email, password) => {
     event.preventDefault();
-    console.log(email);
-    console.log(password);
+    auth.signInWithEmailAndPassword(email, password).catch((error) => {
+      setError("Error signing in with email and password");
+      console.log("error: " + error);
+    });
   };
 
   const onChangeHandler = (event) => {
@@ -19,7 +21,9 @@ const LoginForm = () => {
       : setPassword(event.target.value);
   };
 
-  return (
+  return userStatus.authenticated ? (
+    <Redirect to="/profilePage" />
+  ) : (
     <div>
       <h1>login form</h1>
       <form className="register-form-container">
@@ -46,7 +50,7 @@ const LoginForm = () => {
         <button
           type="submit"
           onClick={(event) => {
-            SubmitWithUsernameAndPassword(event, email, password);
+            submitWithUsernameAndPasswordHandler(event, email, password);
           }}
         >
           Submit

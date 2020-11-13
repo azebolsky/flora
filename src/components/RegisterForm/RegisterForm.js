@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./RegisterForm.css";
+import { auth, generateUserDocument } from "../../firebase";
 
 const RegisterForm = () => {
   const [email, setEmail] = useState("");
@@ -9,22 +10,27 @@ const RegisterForm = () => {
   const [duplicatePassword, setDuplicatePassword] = useState("");
   const [error, setError] = useState(null);
 
-  const createUserWithEmailAndPasswordHandler = (
+  const createUserWithEmailAndPasswordHandler = async (
     event,
     email,
-    password,
-    duplicatePassword
+    password
   ) => {
     event.preventDefault();
-    if (duplicatePassword === password) {
-      setEmail("");
-      setPassword("");
-      setDisplayName("");
-      setDuplicatePassword("");
-    } else {
-      console.log(password, duplicatePassword);
-      console.log("passwords do not match");
+    console.log("email line 19: " + email);
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      generateUserDocument(user, { displayName });
+    } catch (error) {
+      setError("Error signing up with email and password");
+      console.log(error);
     }
+    setEmail("");
+    setPassword("");
+    setDisplayName("");
+    // setDuplicatePassword("");
   };
 
   const onChangeHandler = (event) => {
@@ -83,7 +89,11 @@ const RegisterForm = () => {
             onChange={onChangeHandler}
           />
         </label>
-        <button type="submit" onClick={createUserWithEmailAndPasswordHandler}>
+        <button
+          onClick={(event) => {
+            createUserWithEmailAndPasswordHandler(event, email, password);
+          }}
+        >
           Submit
         </button>
       </form>

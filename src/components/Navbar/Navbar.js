@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
-import { signInWithGoogle } from "../../firebase";
 import "./Navbar.css";
 
 const Navbar = ({ userStatus }) => {

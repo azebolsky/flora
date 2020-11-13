@@ -10,7 +10,6 @@ const UserProvider = (props) => {
       setUser(userAuth);
     });
   });
-  console.log("user status: " + user);
 
   return (
     <div>
