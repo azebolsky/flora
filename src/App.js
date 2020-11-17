@@ -7,7 +7,7 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
 import UserProvider from "./providers/UserProvider";
-import { auth, generateUserDocument } from "./firebase";
+import { auth } from "./firebase";
 import "./App.css";
 
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
 
   useEffect(() => {
     const clearUser = auth.onAuthStateChanged((userAuth) => {
-      const user = generateUserDocument(userAuth);
+      // const authState = generateUserDocument(userAuth);
       if (userAuth) {
         setAuthState({
           displayName: userAuth.displayName,
