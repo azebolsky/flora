@@ -7,7 +7,7 @@ const LoginForm = ({ userStatus }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-  const submitWithUsernameAndPasswordHandler = (event, email, password) => {
+  const signInWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault();
     auth.signInWithEmailAndPassword(email, password).catch((error) => {
       setError("Error signing in with email and password");
@@ -21,7 +21,7 @@ const LoginForm = ({ userStatus }) => {
       : setPassword(event.target.value);
   };
 
-  return userStatus.authenticated ? (
+  return userStatus.authenticated && !error ? (
     <Redirect to="/profilePage" />
   ) : (
     <div>
@@ -50,7 +50,7 @@ const LoginForm = ({ userStatus }) => {
         <button
           type="submit"
           onClick={(event) => {
-            submitWithUsernameAndPasswordHandler(event, email, password);
+            signInWithEmailAndPasswordHandler(event, email, password);
           }}
         >
           Submit

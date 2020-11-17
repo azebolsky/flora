@@ -38,7 +38,7 @@ export const generateUserDocument = async (user, additionalData) => {
         ...additionalData,
       });
     } catch (error) {
-      console.log("error firebase line 41: " + error);
+      console.log("error firebase.js line 41: " + error);
     }
   }
   return getUserDocument(user.uid);
@@ -53,6 +53,6 @@ const getUserDocument = async (uid) => {
       ...userDocument.data(),
     };
   } catch (error) {
-    console.log("error fetching: " + error);
+    console.log("error fetching firebase.js: " + error);
   }
 };

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "./RegisterForm.css";
 import { auth, generateUserDocument } from "../../firebase";
 
-const RegisterForm = () => {
+const RegisterForm = ({ userStatus }) => {
   const [email, setEmail] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
@@ -45,7 +45,9 @@ const RegisterForm = () => {
     }
   };
 
-  return (
+  return userStatus.authenticated && !error ? (
+    <Redirect to="/profilePage" />
+  ) : (
     <div className="register-container">
       <h1>Register Form</h1>
       <form className="register-form-container">
@@ -100,7 +102,7 @@ const RegisterForm = () => {
       <p>or</p>
       <button>Sign in with Google</button>
       <p>
-        Don't have an account? <Link to="register">Sign up here</Link> <br />{" "}
+        Already have an account? <Link to="login">Login Here</Link> <br />{" "}
         <Link to="passwordReset">Forgot Password?</Link>
       </p>
     </div>

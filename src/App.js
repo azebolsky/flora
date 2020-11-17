@@ -47,7 +47,7 @@ const App = () => {
     return <LoginForm userStatus={authState} />;
   };
   const register = () => {
-    return <RegisterForm />;
+    return <RegisterForm userStatus={authState} />;
   };
   const passwordReset = () => {
     return <PasswordReset />;
