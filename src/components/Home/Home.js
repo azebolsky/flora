@@ -53,6 +53,9 @@ const Home = () => {
           }
         );
     }
+    return () => {
+      setLoading(false);
+    };
   }, [page, search]);
 
   const nextPage = () => {
