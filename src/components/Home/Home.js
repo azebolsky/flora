@@ -22,39 +22,49 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (search) {
-      fetch(
-        `https://trefle.io/api/v1/plants/search?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}&q=${search}`
-      )
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            setLoading(true);
-            setItems(result.data);
-          },
-          (error) => {
-            setLoading(true);
-            setError(error);
-          }
-        );
-    } else {
-      fetch(
-        `https://trefle.io/api/v1/plants?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}`
-      )
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            setLoading(true);
-            setItems(result.data);
-          },
-          (error) => {
-            setLoading(true);
-            setError(error);
-          }
-        );
-    }
+    const myAbortController = new AbortController();
+    const searchItems = async () => {
+      try {
+        if (search) {
+          await fetch(
+            `https://trefle.io/api/v1/plants/search?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}&q=${search}`,
+            { signal: myAbortController.signal }
+          )
+            .then((res) => res.json())
+            .then(
+              (result) => {
+                setLoading(true);
+                setItems(result.data);
+              },
+              (error) => {
+                setLoading(true);
+                setError(error);
+              }
+            );
+        } else {
+          await fetch(
+            `https://trefle.io/api/v1/plants?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}`,
+            { signal: myAbortController.signal }
+          )
+            .then((res) => res.json())
+            .then(
+              (result) => {
+                setLoading(true);
+                setItems(result.data);
+              },
+              (error) => {
+                setLoading(true);
+                setError(error);
+              }
+            );
+        }
+      } catch (error) {
+        console.log("error in Home.js line 59: " + error);
+      }
+    };
+    searchItems();
     return () => {
-      setLoading(false);
+      myAbortController.abort();
     };
   }, [page, search]);
 
