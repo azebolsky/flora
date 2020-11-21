@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SearchForm from "../SearchForm/SearchForm";
 import SearchResults from "../SearchResults/SearchResults";
+import { getPlantsWithPageNumber } from "../../services/api-service";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -26,20 +27,16 @@ const Home = () => {
     let isCancelled = false;
     const searchItems = async () => {
       if (!isCancelled && search) {
-        await fetch(
-          `https://trefle.io/api/v1/plants/search?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}&q=${search}`
-        )
-          .then((res) => res.json())
-          .then(
-            (result) => {
-              setLoading(true);
-              setItems(result.data);
-            },
-            (error) => {
-              setLoading(true);
-              setError(error);
-            }
-          );
+        await getPlantsWithPageNumber().then(
+          (result) => {
+            setLoading(true);
+            setItems(result.data);
+          },
+          (error) => {
+            setLoading(true);
+            setError(error);
+          }
+        );
       } else if (!isCancelled) {
         await fetch(
           `https://trefle.io/api/v1/plants?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}`
@@ -59,7 +56,7 @@ const Home = () => {
     };
     searchItems();
     return () => {
-      isCancelled = false;
+      isCancelled = true;
       console.log(`line 67===> ${isCancelled}`);
     };
   }, [page, search]);
