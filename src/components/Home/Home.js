@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import SearchForm from "../SearchForm/SearchForm";
 import SearchResults from "../SearchResults/SearchResults";
-import { getPlantsWithPageNumber } from "../../services/api-service";
+import {
+  getPlantsWithPageNumber,
+  getPlantsWithSearchAndPageNumber,
+} from "../../services/api-service";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -24,42 +27,47 @@ const Home = () => {
 
   useEffect(() => {
     // const myAbortController = new AbortController();
-    let isCancelled = false;
-    const searchItems = async () => {
-      if (!isCancelled && search) {
-        await getPlantsWithPageNumber().then(
-          (result) => {
-            setLoading(true);
-            setItems(result.data);
-          },
-          (error) => {
-            setLoading(true);
-            setError(error);
-          }
-        );
-      } else if (!isCancelled) {
-        await fetch(
-          `https://trefle.io/api/v1/plants?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}`
-        )
-          .then((res) => res.json())
-          .then(
-            (result) => {
-              setLoading(true);
-              setItems(result.data);
-            },
-            (error) => {
-              setLoading(true);
-              setError(error);
-            }
-          );
-      }
-    };
-    searchItems();
-    return () => {
-      isCancelled = true;
-      console.log(`line 67===> ${isCancelled}`);
-    };
-  }, [page, search]);
+    // let isCancelled = false;
+    async function fetchData() {
+      const data = await getPlantsWithPageNumber(page);
+      setLoading(true);
+      setItems(data.data);
+      console.log(data);
+    }
+    fetchData();
+    // const searchItems = () => {
+    //   if (!isCancelled && search) {
+    //     getPlantsWithSearchAndPageNumber(page, search).then(
+    //       (data) => {
+    //         console.log(data);
+    //         setLoading(true);
+    //         setItems(data);
+    //       },
+    //       (error) => {
+    //         setLoading(true);
+    //         setError(error);
+    //       }
+    //     );
+    //   } else if (!isCancelled) {
+    //     getPlantsWithPageNumber(page).then(
+    //       (data) => {
+    //         console.log(data);
+    //         setLoading(true);
+    //         setItems(data);
+    //       },
+    //       (error) => {
+    //         setLoading(true);
+    //         setError(error);
+    //       }
+    //     );
+    //   }
+    // };
+    // searchItems();
+    // return () => {
+    //   isCancelled = true;
+    //   console.log(`line 67===> ${isCancelled}`);
+    // };
+  }, [page]);
 
   const nextPage = () => {
     let newPage = page;

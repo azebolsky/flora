@@ -10,7 +10,7 @@ import UserProvider from "./providers/UserProvider";
 import { auth } from "./firebase";
 import "./App.css";
 
-const App = () => {
+const App = (props) => {
   const [authState, setAuthState] = useState({});
 
   useEffect(() => {
@@ -36,36 +36,37 @@ const App = () => {
       clearUser();
     };
   }, []);
-
-  const home = () => {
-    return <Home />;
-  };
-  const plants = () => {
-    return <h1>Plants</h1>;
-  };
-  const login = () => {
-    return <LoginForm userStatus={authState} />;
-  };
-  const register = () => {
-    return <RegisterForm userStatus={authState} />;
-  };
-  const passwordReset = () => {
-    return <PasswordReset />;
-  };
-  const profilePage = () => {
-    return <ProfilePage userStatus={authState} />;
-  };
   return (
     <div>
       <UserProvider>
         <Navbar userStatus={authState} />
         <Switch>
-          <Route exact path="/" component={home} />
-          <Route path="/plants" component={plants} />
-          <Route path="/login" component={login} />
-          <Route path="/register" component={register} />;
-          <Route path="/passwordReset" component={passwordReset} />;
-          <Route path="/profilePage" component={profilePage} />;
+          {/* <Route exact path="/" component={home} /> */}
+          <Route exact path="/" render={(props) => <Home {...props} />} />
+          {/* <Route path="/plants" render={(props) => <Plants {...props} />} /> */}
+          <Route
+            exact
+            path="/login"
+            render={(authState) => <LoginForm authStatus={authState} />}
+          />
+          <Route
+            exact
+            path="/register"
+            render={(authState) => <RegisterForm authStatus={authState} />}
+          />
+          ;
+          <Route
+            exact
+            path="/passwordReset"
+            render={(authState) => <PasswordReset authStatus={authState} />}
+          />
+          ;
+          <Route
+            exact
+            path="/profilePage"
+            render={(props) => <ProfilePage {...props} />}
+          />
+          ;
         </Switch>
       </UserProvider>
     </div>

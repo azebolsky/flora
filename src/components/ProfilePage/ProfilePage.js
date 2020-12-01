@@ -2,17 +2,17 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { auth } from "../../firebase";
 
-const ProfilePage = ({ userStatus }) => {
-  return userStatus.authenticated ? (
+const ProfilePage = (props) => {
+  return props.authStatus.authenticated ? (
     <div>
-      <h1>Hi {userStatus.displayName}!</h1>
+      <h1>Hi {props.authStatus.displayName}!</h1>
       <img
-        src={userStatus.photoURL}
+        src={props.authStatus.photoURL}
         width="100px"
         height="100px"
-        alt={userStatus.displayName}
+        alt={props.authStatus.displayName}
       />
-      <h2>{userStatus.email}</h2>
+      <h2>{props.authStatus.email}</h2>
       <button
         onClick={() => {
           auth.signOut();

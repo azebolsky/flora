@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { signInWithGoogle, auth } from "../../firebase";
 
-const LoginForm = ({ userStatus }) => {
+const LoginForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ const LoginForm = ({ userStatus }) => {
       : setPassword(event.target.value);
   };
 
-  return userStatus.authenticated && !error ? (
+  return props.authStatus.authenticated && !error ? (
     <Redirect to="/profilePage" />
   ) : (
     <div>

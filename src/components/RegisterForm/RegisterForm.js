@@ -3,12 +3,14 @@ import { Link, Redirect } from "react-router-dom";
 import "./RegisterForm.css";
 import { auth, generateUserDocument } from "../../firebase";
 
-const RegisterForm = ({ userStatus }) => {
+const RegisterForm = (props) => {
   const [email, setEmail] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
   const [duplicatePassword, setDuplicatePassword] = useState("");
   const [error, setError] = useState(null);
+
+  console.log(props.authStatus);
 
   const createUserWithEmailAndPasswordHandler = async (
     event,
@@ -45,7 +47,7 @@ const RegisterForm = ({ userStatus }) => {
     }
   };
 
-  return userStatus.authenticated && !error ? (
+  return props.authStatus.authenticated && !error ? (
     <Redirect to="/profilePage" />
   ) : (
     <div className="register-container">
