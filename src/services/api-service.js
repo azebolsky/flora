@@ -1,7 +1,6 @@
 function getPlantsWithSearchAndPageNumber(page, search) {
   console.log(`page: ${page}, search: ${search}`);
-
-  fetch(
+  return fetch(
     `https://trefle.io/api/v1/plants/search?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}&q=${search}`
   ).then((res) => res.json());
 }

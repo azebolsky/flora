@@ -1,10 +1,16 @@
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import "./Navbar.css";
+import styled from "styled-components";
+
+const StyledNav = styled.nav`
+  font-family: var(--logo-font);
+  font-size: 30px;
+`;
 
 const Navbar = ({ userStatus }) => {
   return userStatus.authenticated ? (
-    <div className="nav-container">
+    <StyledNav className="nav-container">
       <NavLink exact to="">
         Home
       </NavLink>
@@ -14,9 +20,9 @@ const Navbar = ({ userStatus }) => {
       <NavLink exact to="/profilePage">
         Profile
       </NavLink>
-    </div>
+    </StyledNav>
   ) : (
-    <div className="nav-container">
+    <StyledNav className="nav-container">
       <NavLink exact to="">
         Home
       </NavLink>
@@ -29,7 +35,7 @@ const Navbar = ({ userStatus }) => {
       <NavLink exact to="/login">
         Login
       </NavLink>
-    </div>
+    </StyledNav>
   );
 };
 

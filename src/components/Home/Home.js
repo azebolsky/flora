@@ -6,6 +6,14 @@ import {
   getPlantsWithSearchAndPageNumber,
 } from "../../services/api-service";
 
+import styled from "styled-components";
+
+const StyledLayout = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -26,52 +34,24 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // const myAbortController = new AbortController();
-    // let isCancelled = false;
     async function fetchData() {
-      const data = await getPlantsWithPageNumber(page);
+      const data = !search
+        ? await getPlantsWithPageNumber(page)
+        : await getPlantsWithSearchAndPageNumber(page, search);
       setLoading(true);
       setItems(data.data);
-      console.log(data);
     }
     fetchData();
-    // const searchItems = () => {
-    //   if (!isCancelled && search) {
-    //     getPlantsWithSearchAndPageNumber(page, search).then(
-    //       (data) => {
-    //         console.log(data);
-    //         setLoading(true);
-    //         setItems(data);
-    //       },
-    //       (error) => {
-    //         setLoading(true);
-    //         setError(error);
-    //       }
-    //     );
-    //   } else if (!isCancelled) {
-    //     getPlantsWithPageNumber(page).then(
-    //       (data) => {
-    //         console.log(data);
-    //         setLoading(true);
-    //         setItems(data);
-    //       },
-    //       (error) => {
-    //         setLoading(true);
-    //         setError(error);
-    //       }
-    //     );
-    //   }
-    // };
-    // searchItems();
-    // return () => {
-    //   isCancelled = true;
-    //   console.log(`line 67===> ${isCancelled}`);
-    // };
-  }, [page]);
+  }, [page, search]);
 
   const nextPage = () => {
     let newPage = page;
     setPage((newPage += 1));
+  };
+
+  const clearSearch = (e) => {
+    e.preventDefault();
+    setSearch("");
   };
 
   if (error) {
@@ -80,14 +60,15 @@ const Home = () => {
     return <div>Loading...</div>;
   } else {
     return (
-      <div>
+      <StyledLayout>
         <SearchForm
           searchTerm={search}
           onChange={handleChange}
           onSubmit={handleSubmit}
+          clearSearchInput={clearSearch}
         />
         <SearchResults resultItems={items} pages={nextPage} />
-      </div>
+      </StyledLayout>
     );
   }
 };
