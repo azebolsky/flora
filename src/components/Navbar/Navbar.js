@@ -4,13 +4,29 @@ import "./Navbar.css";
 import styled from "styled-components";
 
 const StyledNav = styled.nav`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
   font-family: var(--logo-font);
   font-size: 30px;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  background-color: black;
+  color: red;
+
+  a {
+    text-decoration: none;
+    color: var(--secondary-brand-color);
+  }
+
+  a:hover {
+    color: var(--hover-color);
+  }
 `;
 
 const Navbar = ({ userStatus }) => {
   return userStatus.authenticated ? (
-    <StyledNav className="nav-container">
+    <StyledNav>
       <NavLink exact to="">
         Home
       </NavLink>
@@ -22,7 +38,7 @@ const Navbar = ({ userStatus }) => {
       </NavLink>
     </StyledNav>
   ) : (
-    <StyledNav className="nav-container">
+    <StyledNav>
       <NavLink exact to="">
         Home
       </NavLink>

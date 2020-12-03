@@ -2,7 +2,8 @@
 
 :root {
   --primary-color: #000000;
-  --secondary-brand-color: #ffffff;
+  --secondary-brand-color: rgb(73, 184, 25);
+  --hover-color: rgb(54, 138, 18);
   --light-shadow: #808080;
   --logo-font: "Nova Mono", cursive;
 }

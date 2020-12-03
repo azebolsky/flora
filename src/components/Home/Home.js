@@ -9,9 +9,18 @@ import {
 import styled from "styled-components";
 
 const StyledLayout = styled.div`
+  min-height: 100vh;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 15px auto;
+  }
 `;
 
 const Home = () => {
@@ -54,8 +63,17 @@ const Home = () => {
     setSearch("");
   };
 
+  const Results = items.map((item) => (
+    <SearchResults
+      key={item.id}
+      image={item.image_url}
+      commonName={item.common_name}
+    />
+  ));
+
   if (error) {
-    return <div>Error: {error.message}</div>;
+    setError("error has occurred");
+    return <div>Error: {error}</div>;
   } else if (!loading) {
     return <div>Loading...</div>;
   } else {
@@ -67,7 +85,8 @@ const Home = () => {
           onSubmit={handleSubmit}
           clearSearchInput={clearSearch}
         />
-        <SearchResults resultItems={items} pages={nextPage} />
+        <section>{Results}</section>
+        <button onClick={nextPage}>next page</button>
       </StyledLayout>
     );
   }
