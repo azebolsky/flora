@@ -30,10 +30,6 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
-  // Note: the empty deps array [] means
-  // this useEffect will run once
-  // similar to componentDidMount()
-
   const handleChange = (e) => {
     setSearch(e.target.value);
   };

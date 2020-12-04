@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import { auth } from "../../firebase";
 
 const ProfilePage = (props) => {
+  console.log(props.authStatus.authenticated);
   return props.authStatus.authenticated ? (
     <div>
       <h1>Hi {props.authStatus.displayName}!</h1>

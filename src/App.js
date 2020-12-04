@@ -6,11 +6,9 @@ import RegisterForm from "./components/RegisterForm/RegisterForm";
 import LoginForm from "./components/LoginForm/LoginForm";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
-import UserProvider from "./providers/UserProvider";
 import { auth } from "./firebase";
-import "./App.css";
 
-const App = (props) => {
+const App = () => {
   const [authState, setAuthState] = useState({});
 
   useEffect(() => {
@@ -36,39 +34,36 @@ const App = (props) => {
       clearUser();
     };
   }, []);
+  console.log("Auth State line 40: " + authState.authenticated);
+
   return (
     <div>
-      <UserProvider>
-        <Navbar userStatus={authState} />
-        <Switch>
-          {/* <Route exact path="/" component={home} /> */}
-          <Route exact path="/" render={(props) => <Home {...props} />} />
-          {/* <Route path="/plants" render={(props) => <Plants {...props} />} /> */}
-          <Route
-            exact
-            path="/login"
-            render={(authState) => <LoginForm authStatus={authState} />}
-          />
-          <Route
-            exact
-            path="/register"
-            render={(authState) => <RegisterForm authStatus={authState} />}
-          />
-          ;
-          <Route
-            exact
-            path="/passwordReset"
-            render={(authState) => <PasswordReset authStatus={authState} />}
-          />
-          ;
-          <Route
-            exact
-            path="/profilePage"
-            render={(props) => <ProfilePage {...props} />}
-          />
-          ;
-        </Switch>
-      </UserProvider>
+      <Navbar userStatus={authState} />
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={(authState) => <Home authStatus={authState} />}
+        />
+        <Route
+          path="/login"
+          render={(props) => <LoginForm {...props} authStatus={authState} />}
+        />
+        <Route
+          path="/register"
+          render={(props) => <RegisterForm {...props} authStatus={authState} />}
+        />
+        <Route
+          path="/passwordReset"
+          render={(props) => (
+            <PasswordReset {...props} authStatus={authState} />
+          )}
+        />
+        <Route
+          path="/profilePage"
+          render={(props) => <ProfilePage {...props} authStatus={authState} />}
+        />
+      </Switch>
     </div>
   );
 };

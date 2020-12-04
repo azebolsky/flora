@@ -25,6 +25,13 @@ const LoginForm = (props) => {
     <Redirect to="/profilePage" />
   ) : (
     <div>
+      <button
+        onClick={() => {
+          auth.signOut();
+        }}
+      >
+        Sign Out
+      </button>
       <h1>login form</h1>
       <form className="register-form-container">
         <label>

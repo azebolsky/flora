@@ -10,8 +10,6 @@ const RegisterForm = (props) => {
   const [duplicatePassword, setDuplicatePassword] = useState("");
   const [error, setError] = useState(null);
 
-  console.log(props.authStatus);
-
   const createUserWithEmailAndPasswordHandler = async (
     event,
     email,

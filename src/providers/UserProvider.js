@@ -1,21 +1,21 @@
-import React, { createContext, useEffect, useState } from "react";
-import { auth } from "../firebase";
+// import React, { createContext, useEffect, useState } from "react";
+// import { auth } from "../firebase";
 
-export const UserContext = createContext({ user: null });
-const UserProvider = (props) => {
-  const [user, setUser] = useState(null);
+// export const UserContext = createContext({ user: null });
+// const UserProvider = (props) => {
+//   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    auth.onAuthStateChanged((userAuth) => {
-      setUser(userAuth);
-    });
-  });
+//   useEffect(() => {
+//     auth.onAuthStateChanged((userAuth) => {
+//       setUser(userAuth);
+//     });
+//   });
 
-  return (
-    <div>
-      <UserContext.Provider value={user}>{props.children}</UserContext.Provider>
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <UserContext.Provider value={user}>{props.children}</UserContext.Provider>
+//     </div>
+//   );
+// };
 
-export default UserProvider;
+// export default UserProvider;
