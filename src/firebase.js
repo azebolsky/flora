@@ -25,6 +25,7 @@ export const signInWithGoogle = () => {
 // create a collection for the users which contains docs for each user
 export const generateUserDocument = async (user, additionalData) => {
   if (!user) return;
+  console.log("line 28");
   // create reference to the user's document in the users collection
   const userRef = firestore.doc(`users/${user.uid}`);
   const snapshot = await userRef.get();
@@ -54,5 +55,38 @@ const getUserDocument = async (uid) => {
     };
   } catch (error) {
     console.log("error fetching firebase.js: " + error);
+  }
+};
+
+export const updateUserInfo = async (item) => {
+  const currentUser = await firebase.auth().currentUser;
+  // const uid = currentUser.uid;
+  console.log(currentUser);
+  // const userData = {
+  //   favorites: [item.id],
+  // };
+  // return firebase
+  //   .firestore()
+  //   .doc(`/users/${uid}`)
+  //   .set(userData, { merge: true });
+};
+
+export const getUserPlants = async (uid, commonName, familyCommonName) => {
+  if (!uid) return null;
+  try {
+    await firestore
+      .collection("plants")
+      .add({
+        name: commonName,
+        family: familyCommonName,
+      })
+      .then(function (docRef) {
+        console.log("document written with ID: ", docRef.id);
+      })
+      .catch(function (error) {
+        console.log("error adding document: ", error);
+      });
+  } catch (error) {
+    console.log("error fetching firebase.js: ", error);
   }
 };

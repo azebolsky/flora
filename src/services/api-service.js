@@ -10,4 +10,14 @@ function getPlantsWithPageNumber(page) {
   ).then((res) => res.json());
 }
 
-export { getPlantsWithSearchAndPageNumber, getPlantsWithPageNumber };
+function getSpeciesWithPageNumber(page) {
+  return fetch(
+    `https://trefle.io/api/v1/species/678281?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}`
+  ).then((res) => res.json());
+}
+
+export {
+  getPlantsWithSearchAndPageNumber,
+  getPlantsWithPageNumber,
+  getSpeciesWithPageNumber,
+};

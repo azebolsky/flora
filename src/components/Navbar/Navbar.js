@@ -9,7 +9,6 @@ const StyledNav = styled.nav`
   justify-content: space-around;
   font-family: var(--logo-font);
   font-size: 30px;
-  margin-bottom: 20px;
   padding: 10px 0;
   background-color: black;
   color: red;

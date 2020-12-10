@@ -14,16 +14,18 @@ const StyledLayout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: var(--background-brand-color);
 
   section {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-direction: column; */
     justify-content: center;
-    margin: 15px auto;
+    flex-wrap: wrap;
+    margin: 20px auto;
   }
 `;
 
-const Home = () => {
+const Home = (props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [items, setItems] = useState([]);
@@ -54,16 +56,14 @@ const Home = () => {
     setPage((newPage += 1));
   };
 
-  const clearSearch = (e) => {
-    e.preventDefault();
-    setSearch("");
-  };
-
   const Results = items.map((item) => (
     <SearchResults
       key={item.id}
+      id={item.id}
       image={item.image_url}
       commonName={item.common_name}
+      familyCommonName={item.family_common_name}
+      authStatus={props.authStatus}
     />
   ));
 
@@ -79,10 +79,13 @@ const Home = () => {
           searchTerm={search}
           onChange={handleChange}
           onSubmit={handleSubmit}
-          clearSearchInput={clearSearch}
         />
         <section>{Results}</section>
-        <button onClick={nextPage}>next page</button>
+        {!search || items.length > 19 ? (
+          <button onClick={nextPage}>next page</button>
+        ) : (
+          ""
+        )}
       </StyledLayout>
     );
   }

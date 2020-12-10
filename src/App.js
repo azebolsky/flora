@@ -43,7 +43,7 @@ const App = () => {
         <Route
           exact
           path="/"
-          render={(authState) => <Home authStatus={authState} />}
+          render={(props) => <Home {...props} authStatus={authState} />}
         />
         <Route
           path="/login"
