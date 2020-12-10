@@ -1,7 +1,5 @@
 import React from "react";
 
-import { updateUserInfo } from "../../firebase";
-
 import styled from "styled-components";
 
 const StyledResults = styled.div`
@@ -47,7 +45,6 @@ const SearchResults = (props) => {
       name: props.commonName,
       family: props.familyCommonName,
     };
-    updateUserInfo(item);
   };
 
   return (

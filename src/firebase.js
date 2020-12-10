@@ -22,6 +22,8 @@ export const signInWithGoogle = () => {
   auth.signInWithPopup(provider);
 };
 
+console.log(auth);
+
 // create a collection for the users which contains docs for each user
 export const generateUserDocument = async (user, additionalData) => {
   if (!user) return;
@@ -49,6 +51,7 @@ const getUserDocument = async (uid) => {
   if (!uid) return null;
   try {
     const userDocument = await firestore.doc(`users/${uid}`).get();
+    console.log("line 52: ", userDocument);
     return {
       uid,
       ...userDocument.data(),
@@ -58,17 +61,16 @@ const getUserDocument = async (uid) => {
   }
 };
 
-export const updateUserInfo = async (item) => {
-  const currentUser = await firebase.auth().currentUser;
-  // const uid = currentUser.uid;
-  console.log(currentUser);
-  // const userData = {
-  //   favorites: [item.id],
-  // };
-  // return firebase
-  //   .firestore()
-  //   .doc(`/users/${uid}`)
-  //   .set(userData, { merge: true });
+export const deleteUserAccount = () => {
+  let user = firebase.auth().currentUser;
+  user
+    .delete()
+    .then(function () {
+      console.log("user deleted");
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 };
 
 export const getUserPlants = async (uid, commonName, familyCommonName) => {

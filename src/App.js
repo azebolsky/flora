@@ -7,13 +7,24 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
 import { auth } from "./firebase";
+import firebase from "firebase/app";
 
 const App = () => {
   const [authState, setAuthState] = useState({});
 
   useEffect(() => {
-    const clearUser = auth.onAuthStateChanged((userAuth) => {
-      // const authState = generateUserDocument(userAuth);
+    const clearUser = firebase.auth().onAuthStateChanged((userAuth) => {
+      console.log(firebase.auth().currentUser);
+      // user
+      //   .updateProfile({
+      //     displayName: user.displayName,
+      //   })
+      //   .then(function () {
+      //     console.log("success");
+      //   })
+      //   .catch(function (error) {
+      //     console.log("error!!!");
+      //   });
       if (userAuth) {
         setAuthState({
           displayName: userAuth.displayName,
@@ -35,6 +46,7 @@ const App = () => {
     };
   }, []);
   console.log("Auth State line 40: " + authState.authenticated);
+  console.log(authState.displayName);
 
   return (
     <div>
