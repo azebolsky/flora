@@ -13,8 +13,8 @@ const App = () => {
   const [authState, setAuthState] = useState({});
 
   useEffect(() => {
-    const clearUser = firebase.auth().onAuthStateChanged((userAuth) => {
-      console.log(firebase.auth().currentUser);
+    const clearUser = auth.onAuthStateChanged((userAuth) => {
+      // console.log(firebase.auth().currentUser);
       // user
       //   .updateProfile({
       //     displayName: user.displayName,

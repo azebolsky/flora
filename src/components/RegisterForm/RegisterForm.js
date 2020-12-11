@@ -46,7 +46,7 @@ const RegisterForm = (props) => {
   };
 
   return props.authStatus.authenticated && !error ? (
-    <Redirect to="/profilePage" />
+    <Redirect to={{ pathname: "/profilePage", state: { displayName } }} />
   ) : (
     <div className="register-container">
       <h1>Register Form</h1>

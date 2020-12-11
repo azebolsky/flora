@@ -22,8 +22,6 @@ export const signInWithGoogle = () => {
   auth.signInWithPopup(provider);
 };
 
-console.log(auth);
-
 // create a collection for the users which contains docs for each user
 export const generateUserDocument = async (user, additionalData) => {
   if (!user) return;
@@ -33,6 +31,7 @@ export const generateUserDocument = async (user, additionalData) => {
   const snapshot = await userRef.get();
   if (!snapshot.exists) {
     const { email, displayName, photoURL } = user;
+    console.log("line 36 ==========>>>>>>>", user.displayName);
     try {
       await userRef.set({
         displayName,
@@ -40,6 +39,17 @@ export const generateUserDocument = async (user, additionalData) => {
         photoURL,
         ...additionalData,
       });
+      const user = firebase.auth().currentUser;
+      user
+        .updateProfile({
+          displayName: displayName,
+        })
+        .then(function () {
+          console.log("success");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     } catch (error) {
       console.log("error firebase.js line 41: " + error);
     }
@@ -51,7 +61,6 @@ const getUserDocument = async (uid) => {
   if (!uid) return null;
   try {
     const userDocument = await firestore.doc(`users/${uid}`).get();
-    console.log("line 52: ", userDocument);
     return {
       uid,
       ...userDocument.data(),
@@ -71,6 +80,15 @@ export const deleteUserAccount = () => {
     .catch(function (error) {
       console.log(error);
     });
+};
+
+export const showDisplayName = () => {
+  let user = firebase.auth().currentUser;
+  if (user != null) {
+    let name = user.displayName;
+    let email = user.email;
+    console.log(email);
+  }
 };
 
 export const getUserPlants = async (uid, commonName, familyCommonName) => {
