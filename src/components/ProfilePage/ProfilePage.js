@@ -1,26 +1,24 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
-import { auth, deleteUserAccount, showDisplayName } from "../../firebase";
+import { Redirect, useHistory } from "react-router-dom";
+import { auth, deleteUserAccount } from "../../firebase";
 
 const ProfilePage = (props) => {
+  const history = useHistory();
+  // console.log(history);
+  console.log(history);
   const deleteUser = () => {
     deleteUserAccount();
   };
 
-  const userProfile = () => {
-    showDisplayName();
-  };
-
   return props.authStatus.authenticated ? (
     <div>
-      <button onClick={userProfile}>Get user profile</button>
       <button onClick={deleteUser}>Delete User</button>
       <h1>Hi {props.authStatus.displayName}!</h1>
       <img
         src={props.authStatus.photoURL}
         width="100px"
         height="100px"
-        alt={props.authStatus.displayName}
+        alt="user profile image"
       />
       <h2>{props.authStatus.email}</h2>
       <button

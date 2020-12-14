@@ -25,31 +25,23 @@ export const signInWithGoogle = () => {
 // create a collection for the users which contains docs for each user
 export const generateUserDocument = async (user, additionalData) => {
   if (!user) return;
-  console.log("line 28");
   // create reference to the user's document in the users collection
   const userRef = firestore.doc(`users/${user.uid}`);
   const snapshot = await userRef.get();
   if (!snapshot.exists) {
     const { email, displayName, photoURL } = user;
-    console.log("line 36 ==========>>>>>>>", user.displayName);
+    console.log(additionalData);
     try {
-      await userRef.set({
-        displayName,
-        email,
-        photoURL,
-        ...additionalData,
-      });
-      const user = firebase.auth().currentUser;
-      user
-        .updateProfile({
-          displayName: displayName,
-        })
-        .then(function () {
-          console.log("success");
-        })
-        .catch(function (error) {
-          console.log(error);
+      if (!displayName) {
+        firebase.auth().currentUser.updateProfile({
+          displayName: additionalData.displayName,
         });
+        await userRef.set({
+          displayName,
+          email,
+          photoURL,
+        });
+      }
     } catch (error) {
       console.log("error firebase.js line 41: " + error);
     }
@@ -80,15 +72,6 @@ export const deleteUserAccount = () => {
     .catch(function (error) {
       console.log(error);
     });
-};
-
-export const showDisplayName = () => {
-  let user = firebase.auth().currentUser;
-  if (user != null) {
-    let name = user.displayName;
-    let email = user.email;
-    console.log(email);
-  }
 };
 
 export const getUserPlants = async (uid, commonName, familyCommonName) => {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import "./RegisterForm.css";
 import { auth, generateUserDocument } from "../../firebase";
+import firebase from "firebase/app";
 
 const RegisterForm = (props) => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,6 @@ const RegisterForm = (props) => {
     password
   ) => {
     event.preventDefault();
-    console.log("email line 19: " + email);
     try {
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
@@ -27,10 +27,6 @@ const RegisterForm = (props) => {
       setError("Error signing up with email and password");
       console.log(error);
     }
-    setEmail("");
-    setPassword("");
-    setDisplayName("");
-    // setDuplicatePassword("");
   };
 
   const onChangeHandler = (event) => {
@@ -46,7 +42,12 @@ const RegisterForm = (props) => {
   };
 
   return props.authStatus.authenticated && !error ? (
-    <Redirect to={{ pathname: "/profilePage", state: { displayName } }} />
+    <Redirect
+      to={{
+        pathname: "/profilePage",
+        state: { displayName: displayName },
+      }}
+    />
   ) : (
     <div className="register-container">
       <h1>Register Form</h1>
