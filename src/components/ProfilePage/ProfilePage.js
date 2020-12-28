@@ -1,11 +1,8 @@
 import React from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { auth, deleteUserAccount } from "../../firebase";
 
 const ProfilePage = (props) => {
-  const history = useHistory();
-  // console.log(history);
-  console.log(history);
   const deleteUser = () => {
     deleteUserAccount();
   };
@@ -13,7 +10,7 @@ const ProfilePage = (props) => {
   return props.authStatus.authenticated ? (
     <div>
       <button onClick={deleteUser}>Delete User</button>
-      <h1>Hi {props.authStatus.displayName}!</h1>
+      <h1>Hi {props.name}!</h1>
       <img
         src={props.authStatus.photoURL}
         width="100px"

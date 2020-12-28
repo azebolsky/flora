@@ -29,19 +29,22 @@ export const generateUserDocument = async (user, additionalData) => {
   const userRef = firestore.doc(`users/${user.uid}`);
   const snapshot = await userRef.get();
   if (!snapshot.exists) {
-    const { email, displayName, photoURL } = user;
-    console.log(additionalData);
+    const { email, photoURL } = user;
     try {
-      if (!displayName) {
-        firebase.auth().currentUser.updateProfile({
+      await userRef
+        .set({
           displayName: additionalData.displayName,
+          email: email,
+          photoURL: photoURL,
+        })
+        .then(
+          await user.updateProfile({
+            displayName: additionalData.displayName,
+          })
+        )
+        .then(function () {
+          console.log("profile updated");
         });
-        await userRef.set({
-          displayName,
-          email,
-          photoURL,
-        });
-      }
     } catch (error) {
       console.log("error firebase.js line 41: " + error);
     }
@@ -68,6 +71,7 @@ export const deleteUserAccount = () => {
     .delete()
     .then(function () {
       console.log("user deleted");
+      console.log(user);
     })
     .catch(function (error) {
       console.log(error);

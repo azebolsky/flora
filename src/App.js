@@ -61,7 +61,13 @@ const App = () => {
         />
         <Route
           path="/profilePage"
-          render={(props) => <ProfilePage {...props} authStatus={authState} />}
+          render={(props) => (
+            <ProfilePage
+              {...props}
+              authStatus={authState}
+              name={authState.displayName}
+            />
+          )}
         />
       </Switch>
     </div>
