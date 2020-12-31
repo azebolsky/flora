@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledResults = styled.div`
@@ -39,26 +39,33 @@ const StyledResults = styled.div`
 const SearchResults = (props) => {
   const addToPlantCollection = (e) => {
     e.preventDefault();
-    const item = {
-      id: props.id,
-      image: props.image_url,
-      name: props.commonName,
-      family: props.familyCommonName,
-    };
+    // const item = {
+    //   id: props.id,
+    //   image: props.image_url,
+    //   name: props.commonName,
+    //   family: props.familyCommonName,
+    // };
   };
 
   return (
     <StyledResults>
-      <img src={props.image} alt="plant" width="100px" height="auto" />
-      <section>
-        <h1>{props.commonName}</h1>
-        <p>{props.familyCommonName}</p>
-        {props.authStatus.authenticated ? (
-          <button onClick={addToPlantCollection}>Add to Collection</button>
-        ) : (
-          ""
-        )}
-      </section>
+      <img
+        src={props.image}
+        alt={props.commonName}
+        width="100px"
+        height="auto"
+      />
+      <Link to={`/plants/${props.id}`}>
+        <section>
+          <h1>{props.commonName}</h1>
+          <p>{props.familyCommonName}</p>
+          {props.authStatus.authenticated ? (
+            <button onClick={addToPlantCollection}>Add to Collection</button>
+          ) : (
+            ""
+          )}
+        </section>
+      </Link>
     </StyledResults>
   );
 };

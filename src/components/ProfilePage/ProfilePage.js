@@ -15,7 +15,7 @@ const ProfilePage = (props) => {
         src={props.authStatus.photoURL}
         width="100px"
         height="100px"
-        alt="user profile image"
+        alt={props.authStatus.displayName}
       />
       <h2>{props.authStatus.email}</h2>
       <button

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import "./RegisterForm.css";
 import { auth, generateUserDocument } from "../../firebase";
-import firebase from "firebase/app";
 
 const RegisterForm = (props) => {
   const [email, setEmail] = useState("");

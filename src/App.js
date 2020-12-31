@@ -6,57 +6,107 @@ import RegisterForm from "./components/RegisterForm/RegisterForm";
 import LoginForm from "./components/LoginForm/LoginForm";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
+import PlantPage from "./components/PlantPage/PlantPage";
+import * as plantsAPI from "./services/api-service";
 import { auth } from "./firebase";
 
 const App = () => {
   const [authState, setAuthState] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [items, setItems] = useState([]);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const clearUser = auth.onAuthStateChanged((userAuth) => {
-      if (userAuth) {
-        setAuthState({
-          displayName: userAuth.displayName,
-          photoURL: userAuth.photoURL,
-          email: userAuth.email,
-          authenticated: true,
-        });
-      } else {
-        setAuthState({
-          displayName: null,
-          photoURL: null,
-          email: null,
-          authenticated: false,
-        });
-      }
+    auth.onAuthStateChanged(async (userAuth) => {
+      const userData = await userUpdate(userAuth);
+      return userData;
     });
-    return () => {
-      clearUser();
-    };
-  }, []);
-  console.log(authState.displayName);
-  console.log(authState.email);
+    return fetchData();
+  }, [page, search]);
+
+  const userUpdate = (userAuth) => {
+    if (userAuth) {
+      setAuthState({
+        displayName: userAuth.displayName,
+        photoURL: userAuth.photoURL,
+        email: userAuth.email,
+        authenticated: true,
+      });
+    } else {
+      setAuthState({
+        displayName: null,
+        photoURL: null,
+        email: null,
+        authenticated: false,
+      });
+    }
+  };
+
+  const fetchData = async () => {
+    const plantData = !search
+      ? await plantsAPI.getPlantsWithPageNumber(page)
+      : await plantsAPI.getPlantsWithSearchAndPageNumber(page, search);
+    setLoading(true);
+    setItems(plantData.data);
+  };
+
+  const nextPage = () => {
+    let newPage = page;
+    setPage((newPage += 1));
+  };
+
+  const handleChange = (e) => {
+    setSearch(e.target.value);
+  };
 
   return (
-    <div>
+    <>
       <Navbar userStatus={authState} />
       <Switch>
         <Route
           exact
-          path="/"
-          render={(props) => <Home {...props} authStatus={authState} />}
+          path="/plants"
+          render={(props) => (
+            <Home
+              {...props}
+              authStatus={authState}
+              newPage={nextPage}
+              change={handleChange}
+              plantItems={items}
+              loadingStatus={loading}
+            />
+          )}
         />
         <Route
+          exact
           path="/login"
           render={(props) => <LoginForm {...props} authStatus={authState} />}
         />
         <Route
           path="/register"
-          render={(props) => <RegisterForm {...props} authStatus={authState} />}
+          render={(history, props) => (
+            <RegisterForm {...props} history={history} authStatus={authState} />
+          )}
         />
         <Route
           path="/passwordReset"
           render={(props) => (
             <PasswordReset {...props} authStatus={authState} />
+          )}
+        />
+        <Route
+          exact
+          path={"/plants/:id"}
+          render={(props) => (
+            <PlantPage
+              {...props}
+              authStatus={authState}
+              change={handleChange}
+              plantItems={items}
+              loadingStatus={loading}
+            />
           )}
         />
         <Route
@@ -70,7 +120,7 @@ const App = () => {
           )}
         />
       </Switch>
-    </div>
+    </>
   );
 };
 
