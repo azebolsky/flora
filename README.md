@@ -6,6 +6,15 @@
 
 Flora is a place where plant lovers can keep track of their plants and more importantly keep them alive. This plant tracking application allows users to collect plants and view details about them.
 
+# Technolgoies Used
+
+React.js <br />
+HTML <br />
+CSS <br />
+Styled Components <br />
+Node.js <br />
+Firebase <br />
+
 # Future Improvements
 
 - [] Show life of each plant since it was added/planted
