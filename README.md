@@ -9,11 +9,12 @@ Flora is a place where plant lovers can keep track of their plants and more impo
 # Technolgoies Used
 
 React.js <br />
+Firebase <br />
+Trefle API <br />
 HTML <br />
 CSS <br />
 Styled Components <br />
 Node.js <br />
-Firebase <br />
 
 # Future Improvements
 
