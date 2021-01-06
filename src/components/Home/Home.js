@@ -55,7 +55,7 @@ const Home = (props) => {
         />
         <section>{Results}</section>
         {!props.search || props.items.length > 19 ? (
-          <button onClick={props.nextPage}>next page</button>
+          <button onClick={props.newPage}>next page</button>
         ) : (
           ""
         )}

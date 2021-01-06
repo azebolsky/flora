@@ -13,7 +13,7 @@ import { auth } from "./firebase";
 const App = () => {
   const [authState, setAuthState] = useState({});
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -23,6 +23,13 @@ const App = () => {
       const userData = await userUpdate(userAuth);
       return userData;
     });
+    const fetchData = async () => {
+      const plantData = !search
+        ? await plantsAPI.getPlantsWithPageNumber(page)
+        : await plantsAPI.getPlantsWithSearchAndPageNumber(page, search);
+      setLoading(true);
+      setItems(plantData.data);
+    };
     return fetchData();
   }, [page, search]);
 
@@ -42,14 +49,6 @@ const App = () => {
         authenticated: false,
       });
     }
-  };
-
-  const fetchData = async () => {
-    const plantData = !search
-      ? await plantsAPI.getPlantsWithPageNumber(page)
-      : await plantsAPI.getPlantsWithSearchAndPageNumber(page, search);
-    setLoading(true);
-    setItems(plantData.data);
   };
 
   const nextPage = () => {
