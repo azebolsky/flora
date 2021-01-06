@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import * as plantsAPI from "../../services/plant-service";
 
 import styled from "styled-components";
 
@@ -29,23 +30,19 @@ const Divs = styled.div`
 
 const PlantPage = (props) => {
   const [loading, setLoading] = useState(true);
-  const [currentPlant, setCurrentPlant] = useState();
+  const [currentPlant, setCurrentPlant] = useState([]);
   const currentPlantId = parseInt(props.match.params.id);
 
-  console.log(currentPlant);
-
   useEffect(() => {
-    const getPlantInfo = async (id) => {
-      const result = await props.plantItems.filter(
-        (plantItem) => plantItem.id === id
-      );
-      setCurrentPlant(result[0]);
+    const fetchIndividualPlant = async () => {
+      const plantData = await plantsAPI.getIndividualPlant(currentPlantId);
+      setCurrentPlant(plantData.data);
       setLoading(false);
     };
-    return getPlantInfo(currentPlantId);
-  }, [props.plantItems, currentPlantId]);
+    return fetchIndividualPlant();
+  }, [currentPlantId]);
 
-  return loading && !currentPlant ? (
+  return loading ? (
     <>
       <h1>loading plant...</h1>
     </>
@@ -64,12 +61,12 @@ const PlantPage = (props) => {
             <strong>Family Common Name:</strong>{" "}
             {currentPlant.family_common_name}
           </p>
-          <p>
-            <strong>Family:</strong> {currentPlant.family}
-          </p>
-          <p>
+          {/* <p>
+            <strong>Family:</strong> {currentPlant.family.name}
+          </p> */}
+          {/* <p>
             <strong>genus:</strong> {currentPlant.genus}
-          </p>
+          </p> */}
           <button>Add to Collection</button>
         </Divs>
       </Wrapper>
