@@ -61,12 +61,35 @@ const PlantPage = (props) => {
             <strong>Family Common Name:</strong>{" "}
             {currentPlant.family_common_name}
           </p>
-          {/* <p>
-            <strong>Family:</strong> {currentPlant.family.name}
-          </p> */}
-          {/* <p>
-            <strong>genus:</strong> {currentPlant.genus}
-          </p> */}
+          <p>
+            <strong>Family:</strong> {currentPlant.main_species.family}
+          </p>
+          <p>
+            <strong>genus:</strong> {currentPlant.main_species.genus}
+          </p>
+          {currentPlant.main_species.duration ? (
+            <p>
+              <strong>Duration:</strong> {currentPlant.main_species.duration[0]}
+            </p>
+          ) : (
+            ""
+          )}
+          {currentPlant.main_species.specifications.average_height.cm ? (
+            <p>
+              <strong>Average Height:</strong>{" "}
+              {currentPlant.main_species.specifications.average_height.cm} cm
+            </p>
+          ) : (
+            ""
+          )}
+          {currentPlant.main_species.specifications.maximum_height.cm ? (
+            <p>
+              <strong>Maximum Height:</strong>{" "}
+              {currentPlant.main_species.specifications.maximum_height.cm} cm
+            </p>
+          ) : (
+            ""
+          )}
           <button>Add to Collection</button>
         </Divs>
       </Wrapper>
