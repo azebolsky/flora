@@ -36,6 +36,7 @@ export const generateUserDocument = async (user, additionalData) => {
           displayName: additionalData.displayName,
           email: email,
           photoURL: photoURL,
+          plants: [],
         })
         .then(
           await user.updateProfile({
@@ -56,6 +57,7 @@ const getUserDocument = async (uid) => {
   if (!uid) return null;
   try {
     const userDocument = await firestore.doc(`users/${uid}`).get();
+    console.log(userDocument);
     return {
       uid,
       ...userDocument.data(),
@@ -78,22 +80,52 @@ export const deleteUserAccount = () => {
     });
 };
 
-export const getUserPlants = async (uid, commonName, familyCommonName) => {
-  if (!uid) return null;
-  try {
-    await firestore
-      .collection("plants")
-      .add({
-        name: commonName,
-        family: familyCommonName,
-      })
-      .then(function (docRef) {
-        console.log("document written with ID: ", docRef.id);
-      })
-      .catch(function (error) {
-        console.log("error adding document: ", error);
-      });
-  } catch (error) {
-    console.log("error fetching firebase.js: ", error);
-  }
+export const addToPlantCollection = (plantId) => {
+  const currentUserId = firebase.auth().currentUser.uid;
+  const userDoc = firebase.firestore().collection("users").doc(currentUserId);
+  console.log("Adding ", plantId, " to collection");
+  userDoc.update({
+    plants: firebase.firestore.FieldValue.arrayUnion(plantId),
+  });
+};
+
+export const updateUserData = () => {
+  const currentUser = firebase.auth().currentUser;
+  const uid = currentUser.uid;
+  const userData = { lastLogInTime: new Date() };
+  const updatePromise = firebase
+    .firestore()
+    .doc(`/users/${uid}`)
+    .set(userData, { merge: true });
+  firestore
+    .doc(`users/${uid}`)
+    .get()
+    .then((doc) => {
+      return doc.data();
+      // const userData = doc.data();
+      // console.log(userData);
+      // if (userData.plants) {
+      //   const userPlants = userData.plants;
+      //   return userPlants;
+      //   // return getUserDocument(uid);
+    });
+  return Promise.all([updatePromise]);
+};
+
+export const getUserData = async () => {
+  const currentUser = firebase.auth().currentUser;
+  const uid = currentUser.uid;
+  firestore
+    .doc(`users/${uid}`)
+    .get()
+    .then(async function (doc) {
+      if (doc.exists) {
+        console.log(doc.data());
+        return doc.data();
+        // return updateUserData();
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    });
 };

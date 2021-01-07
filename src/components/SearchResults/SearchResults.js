@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { addToPlantCollection } from "../../firebase";
 import styled from "styled-components";
 
 const StyledResults = styled.div`
@@ -37,14 +38,11 @@ const StyledResults = styled.div`
 `;
 
 const SearchResults = (props) => {
-  const addToPlantCollection = (e) => {
+  let currentId = props.id;
+  const addToUsersPlants = (e, id) => {
     e.preventDefault();
-    // const item = {
-    //   id: props.id,
-    //   image: props.image_url,
-    //   name: props.commonName,
-    //   family: props.familyCommonName,
-    // };
+    id = currentId;
+    return addToPlantCollection(id);
   };
 
   return (
@@ -55,17 +53,17 @@ const SearchResults = (props) => {
         width="100px"
         height="auto"
       />
-      <Link to={`/plants/${props.id}`}>
-        <section>
+      <section>
+        <Link to={`/plants/${props.id}`}>
           <h1>{props.commonName}</h1>
           <p>{props.familyCommonName}</p>
-          {props.authStatus.authenticated ? (
-            <button onClick={addToPlantCollection}>Add to Collection</button>
-          ) : (
-            ""
-          )}
-        </section>
-      </Link>
+        </Link>
+        {props.authStatus.authenticated ? (
+          <button onClick={addToUsersPlants}>Add to Collection</button>
+        ) : (
+          ""
+        )}
+      </section>
     </StyledResults>
   );
 };

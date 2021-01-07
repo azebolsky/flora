@@ -19,8 +19,8 @@ const App = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    auth.onAuthStateChanged(async (userAuth) => {
-      const userData = await userUpdate(userAuth);
+    auth.onAuthStateChanged((userAuth) => {
+      const userData = userUpdate(userAuth);
       return userData;
     });
     const fetchData = async () => {
@@ -34,6 +34,8 @@ const App = () => {
   }, [page, search]);
 
   const userUpdate = (userAuth) => {
+    const currentUser = auth.currentUser;
+    console.log(currentUser);
     if (userAuth) {
       setAuthState({
         displayName: userAuth.displayName,
