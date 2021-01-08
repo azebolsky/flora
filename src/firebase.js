@@ -80,12 +80,18 @@ export const deleteUserAccount = () => {
     });
 };
 
-export const addToPlantCollection = (plantId) => {
+export const addToPlantCollection = (plantId, plantName, plantImage) => {
   const currentUserId = firebase.auth().currentUser.uid;
   const userDoc = firebase.firestore().collection("users").doc(currentUserId);
-  console.log("Adding ", plantId, " to collection");
+  console.log(`Adding ${plantId}-${plantName} to collection`);
+  // adds plant to plant array
+  // arrayUnion prevents a duplicate plant from being added
   userDoc.update({
-    plants: firebase.firestore.FieldValue.arrayUnion(plantId),
+    plants: firebase.firestore.FieldValue.arrayUnion({
+      id: plantId,
+      commonName: plantName,
+      image: plantImage,
+    }),
   });
 };
 

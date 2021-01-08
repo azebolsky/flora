@@ -5,6 +5,24 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 
+import styled from "styled-components";
+
+const UserPlant = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: center;
+  margin-bottom: 10px;
+  border-top: 0.5px solid black;
+  border-bottom: 0.5px solid black;
+  background-color: lightgoldenrodyellow;
+
+  img {
+    width: 100px;
+    height: auto;
+  }
+`;
+
 const ProfilePage = (props) => {
   const [userPlants, setUserPlants] = useState([]);
   const firestore = firebase.firestore();
@@ -19,7 +37,8 @@ const ProfilePage = (props) => {
         .then(function (doc) {
           if (doc.exists) {
             const userInfo = doc.data();
-            setUserPlants(userInfo.plants);
+            let userPlantList = userInfo.plants;
+            setUserPlants(userPlantList);
           } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -27,7 +46,7 @@ const ProfilePage = (props) => {
         });
     };
     return getUserData();
-  }, []);
+  }, [firestore]);
 
   const deleteUser = () => {
     deleteUserAccount();
@@ -59,7 +78,12 @@ const ProfilePage = (props) => {
       <h1>{props.authStatus.displayName}'s Plants</h1>
 
       {userPlants.map((plant) => {
-        return <h1>{plant}</h1>;
+        return (
+          <UserPlant>
+            <img src={plant.image} alt={`${plant.commonName}`} />
+            <h1>{plant.commonName}</h1>
+          </UserPlant>
+        );
       })}
     </div>
   ) : (

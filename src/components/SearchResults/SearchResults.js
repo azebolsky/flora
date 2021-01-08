@@ -39,10 +39,14 @@ const StyledResults = styled.div`
 
 const SearchResults = (props) => {
   let currentId = props.id;
-  const addToUsersPlants = (e, id) => {
+  let commonName = props.commonName;
+
+  const addToUsersPlants = (e, id, plantName, plantImage) => {
     e.preventDefault();
     id = currentId;
-    return addToPlantCollection(id);
+    plantName = commonName;
+    plantImage = props.image;
+    return addToPlantCollection(id, plantName, plantImage);
   };
 
   return (
