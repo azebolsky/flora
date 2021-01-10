@@ -29,17 +29,22 @@ const ProfilePage = (props) => {
 
   useEffect(() => {
     const getUserData = async () => {
-      try {
-        const currentUser = firebase.auth().currentUser;
-        const uid = currentUser.uid;
-        const response = await firestore.doc(`users/${uid}`).get();
-        if (response.exists) {
-          const userInfo = response.data();
-          let userPlantList = userInfo.plants;
-          setUserPlants(userPlantList);
+      if (firebase.auth().currentUser) {
+        try {
+          const currentUser = firebase.auth().currentUser;
+          const response = await firestore
+            .doc(`users/${currentUser.uid}`)
+            .get();
+          if (response.exists) {
+            const userInfo = response.data();
+            let userPlantList = userInfo.plants;
+            setUserPlants(userPlantList);
+          }
+        } catch (err) {
+          console.error(err);
         }
-      } catch (err) {
-        console.error(err);
+      } else {
+        console.log("no user signed in yet");
       }
     };
     return getUserData();
@@ -52,6 +57,16 @@ const ProfilePage = (props) => {
   const deleteUser = () => {
     deleteUserAccount();
   };
+
+  const listUserPlants = userPlants.map((plant, id) => {
+    return (
+      <UserPlant key={id}>
+        <img src={plant.image} alt={`${plant.commonName}`} />
+        <h1>{plant.commonName}</h1>
+        <button onClick={deleteUserPlant}>X</button>
+      </UserPlant>
+    );
+  });
 
   return props.authStatus.authenticated ? (
     <div>
@@ -72,16 +87,7 @@ const ProfilePage = (props) => {
         Sign Out
       </button>
       <h1>{props.authStatus.displayName}'s Plants</h1>
-
-      {userPlants.map((plant) => {
-        return (
-          <UserPlant>
-            <img src={plant.image} alt={`${plant.commonName}`} />
-            <h1>{plant.commonName}</h1>
-            <button onClick={deleteUserPlant}>X</button>
-          </UserPlant>
-        );
-      })}
+      {listUserPlants}
     </div>
   ) : (
     <Redirect to="/login" />
