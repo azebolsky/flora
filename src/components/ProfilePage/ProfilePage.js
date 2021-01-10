@@ -28,34 +28,30 @@ const ProfilePage = (props) => {
   const firestore = firebase.firestore();
 
   useEffect(() => {
-    const getUserData = () => {
-      const currentUser = firebase.auth().currentUser;
-      const uid = currentUser.uid;
-      firestore
-        .doc(`users/${uid}`)
-        .get()
-        .then(function (doc) {
-          if (doc.exists) {
-            const userInfo = doc.data();
-            let userPlantList = userInfo.plants;
-            setUserPlants(userPlantList);
-          } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-          }
-        });
+    const getUserData = async () => {
+      try {
+        const currentUser = firebase.auth().currentUser;
+        const uid = currentUser.uid;
+        const response = await firestore.doc(`users/${uid}`).get();
+        if (response.exists) {
+          const userInfo = response.data();
+          let userPlantList = userInfo.plants;
+          setUserPlants(userPlantList);
+        }
+      } catch (err) {
+        console.error(err);
+      }
     };
     return getUserData();
   }, [firestore]);
 
+  const deleteUserPlant = () => {
+    console.log("delete");
+  };
+
   const deleteUser = () => {
     deleteUserAccount();
   };
-
-  // const showUserData = (e) => {
-  //   e.preventDefault();
-  //   return getUserData();
-  // };
 
   return props.authStatus.authenticated ? (
     <div>
@@ -82,6 +78,7 @@ const ProfilePage = (props) => {
           <UserPlant>
             <img src={plant.image} alt={`${plant.commonName}`} />
             <h1>{plant.commonName}</h1>
+            <button onClick={deleteUserPlant}>X</button>
           </UserPlant>
         );
       })}

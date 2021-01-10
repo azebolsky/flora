@@ -124,11 +124,11 @@ export const getUserData = async () => {
   firestore
     .doc(`users/${uid}`)
     .get()
-    .then(async function (doc) {
+    .then(function (doc) {
       if (doc.exists) {
-        console.log(doc.data());
-        return doc.data();
-        // return updateUserData();
+        const usersPlants = doc.data().plants;
+        console.log(usersPlants);
+        return usersPlants;
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
