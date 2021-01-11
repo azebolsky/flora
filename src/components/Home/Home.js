@@ -36,6 +36,8 @@ const Home = (props) => {
       commonName={item.common_name}
       familyCommonName={item.family_common_name}
       authStatus={props.authStatus}
+      userPlantList={props.userPlants}
+      getUserData={props.getUserData}
     />
   ));
 

@@ -33,11 +33,7 @@ const App = () => {
       setLoading(true);
       setItems(plantData.data);
     };
-
-    return () => {
-      fetchData();
-      getUserData();
-    };
+    return fetchData();
   }, [page, search]);
 
   const userUpdate = (userAuth) => {
@@ -48,6 +44,7 @@ const App = () => {
         email: userAuth.email,
         authenticated: true,
       });
+      return getUserData();
     } else {
       setAuthState({
         displayName: null,
@@ -58,13 +55,13 @@ const App = () => {
     }
   };
 
-  const getUserData = () => {
-    console.log("hey");
+  const getUserData = async () => {
+    console.log("oh yeah bb");
     if (firebase.auth().currentUser) {
       try {
         const currentUser = firebase.auth().currentUser;
         console.log(currentUser);
-        const response = firestore.doc(`users/${currentUser.uid}`).get();
+        const response = await firestore.doc(`users/${currentUser.uid}`).get();
         if (response.exists) {
           const userInfo = response.data();
           let userPlantList = userInfo.plants;
@@ -103,6 +100,8 @@ const App = () => {
               change={handleChange}
               plantItems={items}
               loadingStatus={loading}
+              userPlants={userPlants}
+              getUserData={getUserData}
             />
           )}
         />

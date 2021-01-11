@@ -40,13 +40,23 @@ const StyledResults = styled.div`
 const SearchResults = (props) => {
   let currentId = props.id;
   let commonName = props.commonName;
+  const usersPlants = props.userPlantList;
 
-  const addToUsersPlants = (e, id, plantName, plantImage) => {
+  const addToUsersPlants = async (e, id, plantName, plantImage) => {
     e.preventDefault();
     id = currentId;
     plantName = commonName;
     plantImage = props.image;
-    return addToPlantCollection(id, plantName, plantImage);
+    try {
+      addToPlantCollection(id, plantName, plantImage);
+      return await props.getUserData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const plantStatus = () => {
+    return usersPlants.some((plant) => plant.id === props.id);
   };
 
   return (
@@ -64,7 +74,12 @@ const SearchResults = (props) => {
         </Link>
         {props.authStatus.authenticated ? (
           <span onClick={addToUsersPlants}>
-            <i className="add-btn far fa-leaf"></i>Add
+            <i
+              className={
+                plantStatus() ? "add-btn fa fa-leaf" : "add-btn far fa-leaf"
+              }
+            ></i>
+            Add
           </span>
         ) : (
           ""
