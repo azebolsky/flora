@@ -31,7 +31,7 @@ const ProfilePage = (props) => {
       }
     };
     return getUserData();
-  }, [firestore]);
+  }, [firestore, userPlants]);
 
   const deleteUser = () => {
     deleteUserAccount();

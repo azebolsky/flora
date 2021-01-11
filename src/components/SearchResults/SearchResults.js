@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { addToPlantCollection } from "../../firebase";
+import "firebase/auth";
+import "firebase/firestore";
 import styled from "styled-components";
 
 const StyledResults = styled.div`
@@ -18,11 +20,6 @@ const StyledResults = styled.div`
   &:hover {
     box-shadow: 1px 1px 8px 1px black;
   }
-  /* display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-grow: 1;
-  */
   section {
     display: flex;
     flex-direction: column;
@@ -34,6 +31,9 @@ const StyledResults = styled.div`
   }
   h1 {
     text-align: left;
+  }
+  span > .add-btn {
+    color: green;
   }
 `;
 
@@ -63,7 +63,9 @@ const SearchResults = (props) => {
           <p>{props.familyCommonName}</p>
         </Link>
         {props.authStatus.authenticated ? (
-          <button onClick={addToUsersPlants}>Add to Collection</button>
+          <span onClick={addToUsersPlants}>
+            <i className="add-btn far fa-leaf"></i>Add
+          </span>
         ) : (
           ""
         )}

@@ -23,7 +23,6 @@ const StyledLayout = styled.div`
 
 const Home = (props) => {
   const [error, setError] = useState(null);
-  console.log(props.plantItems);
 
   const handleSubmit = (e) => {
     e.preventDefault();
