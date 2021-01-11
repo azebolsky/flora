@@ -1,27 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
+import UserPlants from "../../components/UserPlants/UserPlants";
 import { auth, deleteUserAccount } from "../../firebase";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-
-import styled from "styled-components";
-
-const UserPlant = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-content: center;
-  margin-bottom: 10px;
-  border-top: 0.5px solid black;
-  border-bottom: 0.5px solid black;
-  background-color: lightgoldenrodyellow;
-
-  img {
-    width: 100px;
-    height: auto;
-  }
-`;
 
 const ProfilePage = (props) => {
   const [userPlants, setUserPlants] = useState([]);
@@ -50,21 +33,18 @@ const ProfilePage = (props) => {
     return getUserData();
   }, [firestore]);
 
-  const deleteUserPlant = () => {
-    console.log("delete");
-  };
-
   const deleteUser = () => {
     deleteUserAccount();
   };
 
   const listUserPlants = userPlants.map((plant, id) => {
     return (
-      <UserPlant key={id}>
-        <img src={plant.image} alt={`${plant.commonName}`} />
-        <h1>{plant.commonName}</h1>
-        <button onClick={deleteUserPlant}>X</button>
-      </UserPlant>
+      <UserPlants
+        key={id}
+        plantId={plant.id}
+        plantName={plant.commonName}
+        image={plant.image}
+      />
     );
   });
 

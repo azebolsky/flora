@@ -80,6 +80,20 @@ export const deleteUserAccount = () => {
     });
 };
 
+export const deleteCurrentUsersPlant = async (plantId) => {
+  console.log(plantId);
+  const currentUser = firebase.auth().currentUser;
+  const currentUserId = currentUser.uid;
+  const userDoc = firebase.firestore().collection("users").doc(currentUserId);
+  const response = await firestore.doc(`users/${currentUser.uid}`).get();
+  if (response.exists) {
+    const userInfo = response.data();
+    return userDoc.update({
+      plants: userInfo.plants.filter((plant) => plant.id !== plantId),
+    });
+  }
+};
+
 export const addToPlantCollection = (plantId, plantName, plantImage) => {
   const currentUserId = firebase.auth().currentUser.uid;
   const userDoc = firebase.firestore().collection("users").doc(currentUserId);
@@ -108,30 +122,6 @@ export const updateUserData = () => {
     .get()
     .then((doc) => {
       return doc.data();
-      // const userData = doc.data();
-      // console.log(userData);
-      // if (userData.plants) {
-      //   const userPlants = userData.plants;
-      //   return userPlants;
-      //   // return getUserDocument(uid);
     });
   return Promise.all([updatePromise]);
-};
-
-export const getUserData = async () => {
-  const currentUser = firebase.auth().currentUser;
-  const uid = currentUser.uid;
-  firestore
-    .doc(`users/${uid}`)
-    .get()
-    .then(function (doc) {
-      if (doc.exists) {
-        const usersPlants = doc.data().plants;
-        console.log(usersPlants);
-        return usersPlants;
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
-    });
 };

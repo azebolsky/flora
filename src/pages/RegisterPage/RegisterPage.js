@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
-import "./RegisterForm.css";
+import "./RegisterPage.css";
 import { auth, generateUserDocument } from "../../firebase";
 
 const RegisterForm = (props) => {

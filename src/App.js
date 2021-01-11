@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
-import RegisterForm from "./components/RegisterForm/RegisterForm";
-import LoginForm from "./components/LoginForm/LoginForm";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
-import ProfilePage from "./components/ProfilePage/ProfilePage";
-import PlantPage from "./components/PlantPage/PlantPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import PlantPage from "./pages/PlantPage/PlantPage";
 import * as plantsAPI from "./services/api-service";
 import { auth } from "./firebase";
 
@@ -83,12 +83,12 @@ const App = () => {
         <Route
           exact
           path="/login"
-          render={(props) => <LoginForm {...props} authStatus={authState} />}
+          render={(props) => <LoginPage {...props} authStatus={authState} />}
         />
         <Route
           path="/register"
           render={(history, props) => (
-            <RegisterForm {...props} history={history} authStatus={authState} />
+            <RegisterPage {...props} history={history} authStatus={authState} />
           )}
         />
         <Route
