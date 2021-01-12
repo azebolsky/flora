@@ -1,15 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
-import Home from "./components/Home/Home";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import PlantPage from "./pages/PlantPage/PlantPage";
+import SearchResults from "./components/SearchResults/SearchResults";
+import SearchForm from "./components/SearchForm/SearchForm";
 import * as plantsAPI from "./services/api-service";
 import { auth } from "./firebase";
 import firebase from "firebase/app";
+import styled from "styled-components";
+
+const StyledLayout = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-brand-color);
+
+  section {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px auto;
+  }
+`;
 
 const App = () => {
   const [authState, setAuthState] = useState({});
@@ -42,6 +61,7 @@ const App = () => {
         displayName: userAuth.displayName,
         photoURL: userAuth.photoURL,
         email: userAuth.email,
+        id: userAuth.uid,
         authenticated: true,
       });
       return getUserData();
@@ -50,6 +70,7 @@ const App = () => {
         displayName: null,
         photoURL: null,
         email: null,
+        id: null,
         authenticated: false,
       });
     }
@@ -64,7 +85,7 @@ const App = () => {
         const response = await firestore.doc(`users/${currentUser.uid}`).get();
         if (response.exists) {
           const userInfo = response.data();
-          let userPlantList = userInfo.plants;
+          let userPlantList = await userInfo.plants;
           console.log(userPlantList);
           setUserPlants(userPlantList);
         }
@@ -85,6 +106,27 @@ const App = () => {
     setSearch(e.target.value);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const clearSearch = () => {
+    setSearch("");
+  };
+
+  const Results = items.map((item) => (
+    <SearchResults
+      key={item.id}
+      id={item.id}
+      image={item.image_url}
+      commonName={item.common_name}
+      familyCommonName={item.family_common_name}
+      authStatus={authState}
+      userPlantList={userPlants}
+      getUserData={getUserData}
+    />
+  ));
+
   return (
     <>
       <Navbar userStatus={authState} />
@@ -92,18 +134,28 @@ const App = () => {
         <Route
           exact
           path="/plants"
-          render={(props) => (
-            <Home
-              {...props}
-              authStatus={authState}
-              newPage={nextPage}
-              change={handleChange}
-              plantItems={items}
-              loadingStatus={loading}
-              userPlants={userPlants}
-              getUserData={getUserData}
-            />
-          )}
+          render={() =>
+            !loading ? (
+              <>
+                <div>Loading...</div>
+              </>
+            ) : (
+              <StyledLayout>
+                <SearchForm
+                  searchTerm={search}
+                  onChange={handleChange}
+                  onSubmit={handleSubmit}
+                  clearSearch={clearSearch}
+                />
+                <section>{Results}</section>
+                {!search || items.length > 19 ? (
+                  <button onClick={nextPage}>next page</button>
+                ) : (
+                  ""
+                )}
+              </StyledLayout>
+            )
+          }
         />
         <Route
           exact
@@ -136,13 +188,17 @@ const App = () => {
           )}
         />
         <Route
-          path="/profilePage"
+          path="/user/:id"
           render={(props) => (
-            <ProfilePage
-              {...props}
-              authStatus={authState}
-              name={authState.displayName}
-            />
+            <>
+              {authState.authenticated ? (
+                <>
+                  <ProfilePage {...props} authStatus={authState} />
+                </>
+              ) : (
+                <Redirect to="/login" />
+              )}
+            </>
           )}
         />
       </Switch>

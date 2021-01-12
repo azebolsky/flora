@@ -14,17 +14,21 @@ const StyledForm = styled.form`
     font-size: 20px;
     outline: none;
   }
+  p {
+    margin-left: 10px;
+  }
 `;
 
-const SearchForm = (props) => {
+const SearchForm = ({ handleSubmit, searchTerm, onChange, clearSearch }) => {
   return (
-    <StyledForm onSubmit={props.handleSubmit}>
+    <StyledForm onSubmit={handleSubmit}>
       <input
         type="search"
         placeholder="Search"
-        value={props.searchTerm}
-        onChange={props.onChange}
+        value={searchTerm}
+        onChange={onChange}
       />
+      <p onClick={clearSearch}>Reset</p>
     </StyledForm>
   );
 };

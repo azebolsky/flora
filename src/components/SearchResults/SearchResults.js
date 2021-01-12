@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { addToPlantCollection } from "../../firebase";
+import { addToPlantCollection, deleteCurrentUsersPlant } from "../../firebase";
 import "firebase/auth";
 import "firebase/firestore";
 import styled from "styled-components";
@@ -42,6 +42,8 @@ const SearchResults = (props) => {
   let commonName = props.commonName;
   const usersPlants = props.userPlantList;
 
+  useEffect(() => {});
+
   const addToUsersPlants = async (e, id, plantName, plantImage) => {
     e.preventDefault();
     id = currentId;
@@ -50,6 +52,16 @@ const SearchResults = (props) => {
     try {
       addToPlantCollection(id, plantName, plantImage);
       return await props.getUserData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteUserPlant = async (e) => {
+    e.preventDefault();
+    try {
+      await deleteCurrentUsersPlant(currentId);
+      return props.getUserData();
     } catch (error) {
       console.log(error);
     }
@@ -73,7 +85,7 @@ const SearchResults = (props) => {
           <p>{props.familyCommonName}</p>
         </Link>
         {props.authStatus.authenticated ? (
-          <span onClick={addToUsersPlants}>
+          <span onClick={plantStatus() ? deleteUserPlant : addToUsersPlants}>
             <i
               className={
                 plantStatus() ? "add-btn fa fa-leaf" : "add-btn far fa-leaf"

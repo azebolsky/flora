@@ -1,12 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import UserPlants from "../../components/UserPlants/UserPlants";
-import { auth, deleteUserAccount } from "../../firebase";
+import ProfileImage from "../../Assets/Profile Image.png";
+import { auth } from "../../firebase";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 
-const ProfilePage = (props) => {
+import styled from "styled-components";
+
+const UserSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+  }
+`;
+
+const ProfilePage = ({ authStatus }) => {
   const [userPlants, setUserPlants] = useState([]);
   const firestore = firebase.firestore();
 
@@ -33,9 +48,9 @@ const ProfilePage = (props) => {
     return getUserData();
   }, [firestore, userPlants]);
 
-  const deleteUser = () => {
-    deleteUserAccount();
-  };
+  // const deleteUser = () => {
+  //   deleteUserAccount();
+  // };
 
   const listUserPlants = userPlants.map((plant, id) => {
     return (
@@ -48,27 +63,27 @@ const ProfilePage = (props) => {
     );
   });
 
-  return props.authStatus.authenticated ? (
-    <div>
-      <button onClick={deleteUser}>Delete User</button>
-      <h1>Hi {props.name}!</h1>
-      <img
-        src={props.authStatus.photoURL}
-        width="100px"
-        height="100px"
-        alt={props.authStatus.displayName}
-      />
-      <h2>{props.authStatus.email}</h2>
-      <button
-        onClick={() => {
-          auth.signOut();
-        }}
-      >
-        Sign Out
-      </button>
-      <h1>{props.authStatus.displayName}'s Plants</h1>
-      {listUserPlants}
-    </div>
+  return authStatus.authenticated ? (
+    <>
+      <UserSection>
+        {/* <button onClick={deleteUser}>Delete User</button> */}
+        <h1>Hi {authStatus.displayName}!</h1>
+        <img
+          src={authStatus.photoURL ? authStatus.photoURL : ProfileImage}
+          alt={authStatus.displayName}
+        />
+        <h2>{authStatus.email}</h2>
+        <button
+          onClick={() => {
+            auth.signOut();
+          }}
+        >
+          Sign Out
+        </button>
+        <h1>{authStatus.displayName}'s Plants</h1>
+      </UserSection>
+      <div>{listUserPlants}</div>
+    </>
   ) : (
     <Redirect to="/login" />
   );

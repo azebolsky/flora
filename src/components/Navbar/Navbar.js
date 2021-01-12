@@ -26,14 +26,11 @@ const StyledNav = styled.nav`
 const Navbar = ({ userStatus }) => {
   return userStatus.authenticated ? (
     <StyledNav>
-      <NavLink exact to="">
-        Home
-      </NavLink>
       <NavLink exact to="/plants">
-        Plants
+        All Plants
       </NavLink>
-      <NavLink exact to="/profilePage">
-        Profile
+      <NavLink exact to={`/user/${userStatus.id}`}>
+        Welcome, {userStatus.displayName}
       </NavLink>
     </StyledNav>
   ) : (
