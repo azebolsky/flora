@@ -13,7 +13,7 @@ import { auth } from "./firebase";
 import firebase from "firebase/app";
 import styled from "styled-components";
 
-const StyledLayout = styled.div`
+const StyledSearchForm = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -23,7 +23,6 @@ const StyledLayout = styled.div`
 
   section {
     display: flex;
-    /* flex-direction: column; */
     justify-content: center;
     flex-wrap: wrap;
     margin: 20px auto;
@@ -77,7 +76,7 @@ const App = () => {
   };
 
   const getUserData = async () => {
-    console.log("oh yeah bb");
+    console.log("get user data");
     if (firebase.auth().currentUser) {
       try {
         const currentUser = firebase.auth().currentUser;
@@ -140,7 +139,7 @@ const App = () => {
                 <div>Loading...</div>
               </>
             ) : (
-              <StyledLayout>
+              <StyledSearchForm>
                 <SearchForm
                   searchTerm={search}
                   onChange={handleChange}
@@ -153,7 +152,7 @@ const App = () => {
                 ) : (
                   ""
                 )}
-              </StyledLayout>
+              </StyledSearchForm>
             )
           }
         />

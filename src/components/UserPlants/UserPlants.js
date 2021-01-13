@@ -7,14 +7,18 @@ const UserPlant = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-content: center;
+  align-items: center;
   margin-bottom: 10px;
-  border-top: 0.5px solid black;
-  border-bottom: 0.5px solid black;
-  background-color: lightgoldenrodyellow;
+  border: 0.5px solid black;
+  box-shadow: 1px 1px 3px 1px var(--light-shadow);
 
   img {
     width: 100px;
     height: auto;
+  }
+
+  .fa-trash-alt {
+    cursor: pointer;
   }
 `;
 
@@ -27,7 +31,9 @@ const UserPlants = ({ plantId, plantName, image }) => {
     <UserPlant>
       <img src={image} alt={`${plantName}`} />
       <h1>{plantName}</h1>
-      <button onClick={deleteUserPlant}>X</button>
+      <section onClick={deleteUserPlant}>
+        <i class="fas fa-trash-alt"></i>
+      </section>
     </UserPlant>
   );
 };

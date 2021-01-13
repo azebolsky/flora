@@ -9,10 +9,24 @@ import "firebase/firestore";
 
 import styled from "styled-components";
 
+const ProfileWrapper = styled.section`
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+
+  h3 {
+    color: red;
+  }
+`;
+
 const UserSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid grey;
+  box-shadow: 1px 1px 3px 1px var(--light-shadow);
+  padding: 5px;
+  margin-bottom: 5px;
 
   img {
     width: 150px;
@@ -64,7 +78,7 @@ const ProfilePage = ({ authStatus }) => {
   });
 
   return authStatus.authenticated ? (
-    <>
+    <ProfileWrapper>
       <UserSection>
         {/* <button onClick={deleteUser}>Delete User</button> */}
         <h1>Hi {authStatus.displayName}!</h1>
@@ -80,10 +94,26 @@ const ProfilePage = ({ authStatus }) => {
         >
           Sign Out
         </button>
-        <h1>{authStatus.displayName}'s Plants</h1>
       </UserSection>
-      <div>{listUserPlants}</div>
-    </>
+      <div>
+        <h1>{authStatus.displayName}'s Plants</h1>
+        <div
+          style={{
+            width: "100%",
+            height: "1px",
+            backgroundColor: "grey",
+            marginBottom: "20px",
+          }}
+        ></div>
+        {userPlants.length ? (
+          <>{listUserPlants}</>
+        ) : (
+          <>
+            <h3>No plants have been added :(</h3>
+          </>
+        )}
+      </div>
+    </ProfileWrapper>
   ) : (
     <Redirect to="/login" />
   );

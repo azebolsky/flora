@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
-import "./Navbar.css";
 import styled from "styled-components";
 
 const StyledNav = styled.nav`
@@ -12,6 +11,8 @@ const StyledNav = styled.nav`
   padding: 10px 0;
   background-color: black;
   color: red;
+  position: sticky;
+  top: 0;
 
   a {
     text-decoration: none;

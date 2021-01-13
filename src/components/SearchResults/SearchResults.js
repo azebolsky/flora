@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { addToPlantCollection, deleteCurrentUsersPlant } from "../../firebase";
 import "firebase/auth";
@@ -32,8 +32,15 @@ const StyledResults = styled.div`
   h1 {
     text-align: left;
   }
-  span > .add-btn {
+  .add-plant-div {
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 20px;
+  }
+  div .add-btn {
     color: green;
+    font-size: 22px;
   }
 `;
 
@@ -41,8 +48,6 @@ const SearchResults = (props) => {
   let currentId = props.id;
   let commonName = props.commonName;
   const usersPlants = props.userPlantList;
-
-  useEffect(() => {});
 
   const addToUsersPlants = async (e, id, plantName, plantImage) => {
     e.preventDefault();
@@ -80,22 +85,24 @@ const SearchResults = (props) => {
         height="auto"
       />
       <section>
-        <Link to={`/plants/${props.id}`}>
-          <h1>{props.commonName}</h1>
-          <p>{props.familyCommonName}</p>
-        </Link>
         {props.authStatus.authenticated ? (
-          <span onClick={plantStatus() ? deleteUserPlant : addToUsersPlants}>
+          <div
+            className="add-plant-div"
+            onClick={plantStatus() ? deleteUserPlant : addToUsersPlants}
+          >
             <i
               className={
                 plantStatus() ? "add-btn fa fa-leaf" : "add-btn far fa-leaf"
               }
             ></i>
             Add
-          </span>
+          </div>
         ) : (
           ""
         )}
+        <h1>{props.commonName}</h1>
+        <p>{props.familyCommonName}</p>
+        <Link to={`/plants/${props.id}`}>Plant Details</Link>
       </section>
     </StyledResults>
   );
