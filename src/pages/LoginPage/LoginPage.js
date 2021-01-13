@@ -25,27 +25,89 @@ const LoginWrapper = styled.div`
     align-items: center;
     align-content: center;
     margin: 10px;
-    width: 30%;
+    width: 55%;
+    min-width: 350px;
     padding: 15px;
   }
 
-  form {
+  .login-inputs {
     background: var(--light-shadow);
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: center;
-    margin: 10px;
-    width: 80%;
     border-radius: 5px;
+    margin: 10px;
+    padding: 5px;
+    width: 100%;
+  }
+
+  .login-inputs > a {
+    color: rgb(73, 177, 254);
+    text-decoration: none;
+    width: 100%;
+    text-align: right;
+    margin: 5px;
+  }
+
+  input {
+    margin: 5px;
+    font-size: 16px;
+    min-width: 95%;
+    border-radius: 5px;
+    height: 40px;
+    padding-left: 8px;
+    border: none;
   }
 
   .google-signin {
-    background: var(--light-shadow);
     width: 80%;
     display: flex;
     justify-content: center;
     border-radius: 5px;
+  }
+
+  .fa-google {
+    font-size: 25px;
+    padding: 10px 15px;
+    background-color: var(--light-shadow);
+    border-radius: 5px;
+    border-bottom: 5px solid rgb(73, 177, 254);
+    cursor: pointer;
+  }
+  .fa-google:hover {
+    background-color: rgb(73, 177, 254);
+  }
+
+  .submit-btn-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .submit-btn-container > a {
+    color: rgb(73, 177, 254);
+    text-decoration: none;
+    width: 100%;
+    text-align: right;
+    margin: 5px 10px 5px 5px;
+    color: white;
+  }
+
+  .submit-btn-container > .submit-btn {
+    width: 120px;
+    height: 40px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: rgb(73, 177, 254);
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+  }
+  .submit-btn:hover {
+    background-color: rgb(73, 190, 254);
   }
 `;
 
@@ -72,20 +134,20 @@ const LoginForm = ({ authStatus }) => {
     <Redirect exact to={`/user/${authStatus.id}`} />
   ) : (
     <LoginWrapper>
-      <h1>login form</h1>
+      <h1>Sign In with</h1>
       <section>
         <div className="google-signin">
-          <button
+          <div
             onClick={() => {
               signInWithGoogle();
             }}
           >
-            Sign In with Google
-          </button>
+            <i class="fab fa-google"></i>
+          </div>
         </div>
         <p>or</p>
         <form>
-          <label>
+          <div className="login-inputs">
             <input
               name="userEmail"
               type="email"
@@ -93,8 +155,6 @@ const LoginForm = ({ authStatus }) => {
               placeholder="Email"
               onChange={onChangeHandler}
             />
-          </label>
-          <label>
             <input
               name="userPassword"
               type="password"
@@ -102,21 +162,21 @@ const LoginForm = ({ authStatus }) => {
               placeholder="Password"
               onChange={onChangeHandler}
             />
-          </label>
-          <button
-            type="submit"
-            onClick={(event) => {
-              signInWithEmailAndPasswordHandler(event, email, password);
-            }}
-          >
-            Submit
-          </button>
+            <Link to="passwordReset">Forgot Password?</Link>
+          </div>
+          <div className="submit-btn-container">
+            <Link to="register">Need an account?</Link> <br />{" "}
+            <button
+              className="submit-btn"
+              type="submit"
+              onClick={(event) => {
+                signInWithEmailAndPasswordHandler(event, email, password);
+              }}
+            >
+              Submit
+            </button>
+          </div>
         </form>
-
-        <p>
-          Don't have an account? <Link to="register">Sign up here</Link> <br />{" "}
-          <Link to="passwordReset">Forgot Password?</Link>
-        </p>
       </section>
     </LoginWrapper>
   );

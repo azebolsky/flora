@@ -6,7 +6,8 @@
   --background-color: rgb(222, 252, 222);
   --secondary-background-color: rgb(222, 252, 222);
   --hover-color: rgb(54, 138, 18);
-  --light-shadow: #808080;
+  /* --hover-color: rgb(73, 177, 254); */
+  --light-shadow: #686868;
   --logo-font: "Nova Mono", cursive;
 }
 
