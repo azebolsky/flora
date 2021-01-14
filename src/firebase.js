@@ -19,7 +19,28 @@ firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 export const signInWithGoogle = () => {
-  auth.signInWithPopup(provider);
+  auth
+    .signInWithPopup(provider)
+    .then((result) => {
+      // /** @type {firebase.auth.OAuthCredential} */
+      var credential = result.credential;
+
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+      generateUserDocument(user);
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
 };
 
 // create a collection for the users which contains docs for each user
@@ -33,21 +54,25 @@ export const generateUserDocument = async (user, additionalData) => {
     try {
       await userRef
         .set({
-          displayName: additionalData.displayName,
+          displayName: additionalData
+            ? additionalData.displayName
+            : user.displayName,
           email: email,
           photoURL: photoURL,
           plants: [],
         })
         .then(
           await user.updateProfile({
-            displayName: additionalData.displayName,
+            displayName: additionalData
+              ? additionalData.displayName
+              : user.displayName,
           })
         )
         .then(function () {
           console.log("profile updated");
         });
     } catch (error) {
-      console.log("error firebase.js line 41: " + error);
+      console.log("error firebase.js line 71: " + error);
     }
   }
   return getUserDocument(user.uid);

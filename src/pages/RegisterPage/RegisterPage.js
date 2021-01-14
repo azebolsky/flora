@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { auth, generateUserDocument } from "../../firebase";
+import { auth, generateUserDocument, signInWithGoogle } from "../../firebase";
 import styled from "styled-components";
 
 const RegisterWrapper = styled.div`
@@ -48,7 +48,7 @@ const RegisterInputs = styled.div`
   align-content: center;
   border-radius: 5px;
   margin: 5px 0 10px 0;
-  padding: 8px 5px 5px 5px;
+  padding: 8px 5px 8px 5px;
   width: 100%;
   a {
     color: rgb(73, 177, 254);
@@ -110,7 +110,7 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   a {
     color: rgb(73, 177, 254);
     text-decoration: none;
@@ -132,6 +132,12 @@ const SubmitButton = styled.button`
   border: none;
   &:hover {
     background-color: rgb(73, 190, 254);
+  }
+`;
+const CurrentUser = styled.p`
+  a {
+    text-decoration: none;
+    color: rgb(73, 177, 254);
   }
 `;
 
@@ -184,13 +190,13 @@ const RegisterForm = (props) => {
       <StyledHeader>Register with</StyledHeader>
       <StyledSection>
         <GoogleContainer>
-          {/* <div
+          <div
             onClick={() => {
               signInWithGoogle();
             }}
           >
             <i className="fab fa-google"></i>
-          </div> */}
+          </div>
         </GoogleContainer>
         <OptionContainer>
           <div className="line"></div>
@@ -229,7 +235,9 @@ const RegisterForm = (props) => {
             />
           </RegisterInputs>
           <ButtonContainer>
-            <Link to="passwordReset">Forgot Password?</Link>
+            <CurrentUser>
+              Already have an account? <Link to="login">Login</Link> <br />{" "}
+            </CurrentUser>
             <SubmitButton
               onClick={(event) => {
                 createUserWithEmailAndPasswordHandler(event, email, password);
@@ -239,9 +247,6 @@ const RegisterForm = (props) => {
             </SubmitButton>
           </ButtonContainer>
         </form>
-        <p>
-          Already have an account? <Link to="login">Login Here</Link> <br />{" "}
-        </p>
       </StyledSection>
     </RegisterWrapper>
   );

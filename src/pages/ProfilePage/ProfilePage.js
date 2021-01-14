@@ -60,7 +60,9 @@ const ProfilePage = ({ authStatus }) => {
       }
     };
     return getUserData();
-  }, [firestore, userPlants]);
+  }, []);
+
+  console.log("x");
 
   // const deleteUser = () => {
   //   deleteUserAccount();
@@ -83,7 +85,8 @@ const ProfilePage = ({ authStatus }) => {
         {/* <button onClick={deleteUser}>Delete User</button> */}
         <h1>Hi {authStatus.displayName}!</h1>
         <img
-          src={authStatus.photoURL ? authStatus.photoURL : ProfileImage}
+          src="https://imgur.com/87OCdR3"
+          // src={authStatus.photoURL ? authStatus.photoURL : ProfileImage}
           alt={authStatus.displayName}
         />
         <h2>{authStatus.email}</h2>

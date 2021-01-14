@@ -54,6 +54,8 @@ const App = () => {
     return fetchData();
   }, [page, search]);
 
+  console.log("hey");
+
   const userUpdate = (userAuth) => {
     if (userAuth) {
       setAuthState({
