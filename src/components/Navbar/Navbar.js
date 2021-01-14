@@ -36,9 +36,6 @@ const Navbar = ({ userStatus }) => {
     </StyledNav>
   ) : (
     <StyledNav>
-      <NavLink exact to="">
-        Home
-      </NavLink>
       <NavLink exact to="/plants">
         Plants
       </NavLink>

@@ -13,36 +13,44 @@ const LoginWrapper = styled.div`
   background-color: black;
   color: white;
   margin: 0;
+`;
 
-  h1 {
-    margin: 0;
-  }
+const StyledHeader = styled.h1`
+  margin: 0;
+`;
 
-  section,
+const StyledSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  margin: 1px 10px 10px 10px;
+  width: 55%;
+  min-width: 350px;
+  padding: 15px;
   form {
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: center;
-    margin: 10px;
+    margin: 1px 10px 10px 10px;
     width: 55%;
     min-width: 350px;
     padding: 15px;
   }
+`;
 
-  .login-inputs {
-    background: var(--light-shadow);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 5px;
-    width: 100%;
-  }
-
-  .login-inputs > a {
+const LoginInputs = styled.div`
+  background: var(--light-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  border-radius: 5px;
+  margin: 5px 0 10px 0;
+  padding: 8px 5px 5px 5px;
+  width: 100%;
+  a {
     color: rgb(73, 177, 254);
     text-decoration: none;
     width: 100%;
@@ -59,14 +67,13 @@ const LoginWrapper = styled.div`
     padding-left: 8px;
     border: none;
   }
-
-  .google-signin {
-    width: 80%;
-    display: flex;
-    justify-content: center;
-    border-radius: 5px;
-  }
-
+`;
+const GoogleContainer = styled.div`
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  margin-bottom: 15px;
   .fa-google {
     font-size: 25px;
     padding: 10px 15px;
@@ -78,16 +85,33 @@ const LoginWrapper = styled.div`
   .fa-google:hover {
     background-color: rgb(73, 177, 254);
   }
-
-  .submit-btn-container {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
+`;
+const OptionContainer = styled.span`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: bold;
+  .line {
+    height: 0.1px;
+    width: 20%;
+    background-color: grey;
+    margin: 0 10px;
   }
-
-  .submit-btn-container > a {
+  p {
+    padding: 0;
+    margin: 0;
+  }
+`;
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  a {
     color: rgb(73, 177, 254);
     text-decoration: none;
     width: 100%;
@@ -95,18 +119,18 @@ const LoginWrapper = styled.div`
     margin: 5px 10px 5px 5px;
     color: white;
   }
-
-  .submit-btn-container > .submit-btn {
-    width: 120px;
-    height: 40px;
-    font-size: 15px;
-    font-weight: bold;
-    background-color: rgb(73, 177, 254);
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-  }
-  .submit-btn:hover {
+`;
+const SubmitButton = styled.button`
+  width: 120px;
+  height: 40px;
+  font-size: 15px;
+  font-weight: bold;
+  color: black;
+  background-color: rgb(73, 177, 254);
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  &:hover {
     background-color: rgb(73, 190, 254);
   }
 `;
@@ -134,20 +158,24 @@ const LoginForm = ({ authStatus }) => {
     <Redirect exact to={`/user/${authStatus.id}`} />
   ) : (
     <LoginWrapper>
-      <h1>Sign In with</h1>
-      <section>
-        <div className="google-signin">
+      <StyledHeader>Sign In with</StyledHeader>
+      <StyledSection>
+        <GoogleContainer>
           <div
             onClick={() => {
               signInWithGoogle();
             }}
           >
-            <i class="fab fa-google"></i>
+            <i className="fab fa-google"></i>
           </div>
-        </div>
-        <p>or</p>
+        </GoogleContainer>
+        <OptionContainer>
+          <div className="line"></div>
+          <p>or</p>
+          <div className="line"></div>
+        </OptionContainer>
         <form>
-          <div className="login-inputs">
+          <LoginInputs>
             <input
               name="userEmail"
               type="email"
@@ -163,21 +191,20 @@ const LoginForm = ({ authStatus }) => {
               onChange={onChangeHandler}
             />
             <Link to="passwordReset">Forgot Password?</Link>
-          </div>
-          <div className="submit-btn-container">
+          </LoginInputs>
+          <ButtonContainer>
             <Link to="register">Need an account?</Link> <br />{" "}
-            <button
-              className="submit-btn"
+            <SubmitButton
               type="submit"
               onClick={(event) => {
                 signInWithEmailAndPasswordHandler(event, email, password);
               }}
             >
               Submit
-            </button>
-          </div>
+            </SubmitButton>
+          </ButtonContainer>
         </form>
-      </section>
+      </StyledSection>
     </LoginWrapper>
   );
 };
