@@ -1,13 +1,21 @@
+const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+
 function getPlantsWithSearchAndPageNumber(page, search) {
-  return fetch(
-    `https://trefle.io/api/v1/plants/search?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}&q=${search}`
-  ).then((res) => res.json());
+  const url = `https://trefle.io/api/v1/plants/search?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}&q=${search}`;
+  return fetch(proxyUrl + url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
 }
 
 function getPlantsWithPageNumber(page) {
-  return fetch(
-    `https://trefle.io/api/v1/plants?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}`
-  ).then((res) => res.json());
+  const url = `https://trefle.io/api/v1/plants?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}`;
+  return fetch(proxyUrl + url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
 }
 
 function getSpeciesWithPageNumber(page) {
