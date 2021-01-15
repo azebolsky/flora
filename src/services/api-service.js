@@ -19,9 +19,12 @@ function getPlantsWithPageNumber(page) {
 }
 
 function getSpeciesWithPageNumber(page) {
-  return fetch(
-    `https://trefle.io/api/v1/species/678281?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}`
-  ).then((res) => res.json());
+  const url = `https://trefle.io/api/v1/species/678281?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}`;
+  return fetch(proxyUrl + url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
 }
 
 export {
