@@ -179,12 +179,7 @@ const RegisterForm = (props) => {
   };
 
   return props.authStatus.authenticated && !error ? (
-    <Redirect
-      to={{
-        pathname: "/profilePage",
-        state: { displayName: displayName },
-      }}
-    />
+    <Redirect to="/profilePage" />
   ) : (
     <RegisterWrapper>
       <StyledHeader>Register with</StyledHeader>

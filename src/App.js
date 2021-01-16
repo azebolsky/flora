@@ -87,9 +87,15 @@ const App = () => {
         if (response.exists) {
           const userInfo = response.data();
           let userPlantList = await userInfo.plants;
-          console.log(userPlantList);
           setUserPlants(userPlantList);
         }
+        // if (!authState.displayName) {
+        //   let currentUsersDisplayName = currentUser.displayName;
+        //   setAuthState({
+        //     displayName: currentUsersDisplayName,
+        //     ...authState,
+        //   });
+        // }
       } catch (err) {
         console.error(err);
       }

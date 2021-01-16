@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import UserPlants from "../../components/UserPlants/UserPlants";
 import ProfileImage from "../../Assets/Profile Image.png";
-import { auth } from "../../firebase";
+import { auth, deleteUserAccount } from "../../firebase";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -64,9 +64,9 @@ const ProfilePage = ({ authStatus }) => {
 
   console.log("x");
 
-  // const deleteUser = () => {
-  //   deleteUserAccount();
-  // };
+  const deleteUser = () => {
+    deleteUserAccount();
+  };
 
   const listUserPlants = userPlants.map((plant, id) => {
     return (
@@ -82,7 +82,7 @@ const ProfilePage = ({ authStatus }) => {
   return authStatus.authenticated ? (
     <ProfileWrapper>
       <UserSection>
-        {/* <button onClick={deleteUser}>Delete User</button> */}
+        <button onClick={deleteUser}>Delete User</button>
         <h1>Hi {authStatus.displayName}!</h1>
         <img
           src={authStatus.photoURL ? authStatus.photoURL : ProfileImage}
