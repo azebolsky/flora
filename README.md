@@ -2,6 +2,8 @@
 
 # Flora
 
+[![Live Preview](https://img.lekoarts.de/gatsby/preview.svg)](https://flora-409f7.web.app/plants)
+
 # Description
 
 Flora is a place where plant lovers can keep track of their plants and more importantly keep them alive. This plant tracking application allows users to collect plants and view details about them.
