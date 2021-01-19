@@ -64,9 +64,9 @@ const ProfilePage = ({ authStatus }) => {
 
   console.log("x");
 
-  const deleteUser = () => {
-    deleteUserAccount();
-  };
+  // const deleteUser = () => {
+  //   deleteUserAccount();
+  // };
 
   const listUserPlants = userPlants.map((plant, id) => {
     return (
@@ -82,7 +82,7 @@ const ProfilePage = ({ authStatus }) => {
   return authStatus.authenticated ? (
     <ProfileWrapper>
       <UserSection>
-        <button onClick={deleteUser}>Delete User</button>
+        {/* <button onClick={deleteUser}>Delete User</button> */}
         <h1>Hi {authStatus.displayName}!</h1>
         <img
           src={authStatus.photoURL ? authStatus.photoURL : ProfileImage}
