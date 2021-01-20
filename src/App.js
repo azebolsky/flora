@@ -89,13 +89,6 @@ const App = () => {
           let userPlantList = await userInfo.plants;
           setUserPlants(userPlantList);
         }
-        // if (!authState.displayName) {
-        //   let currentUsersDisplayName = currentUser.displayName;
-        //   setAuthState({
-        //     displayName: currentUsersDisplayName,
-        //     ...authState,
-        //   });
-        // }
       } catch (err) {
         console.error(err);
       }
@@ -200,7 +193,12 @@ const App = () => {
             <>
               {authState.authenticated ? (
                 <>
-                  <ProfilePage {...props} authStatus={authState} />
+                  <ProfilePage
+                    {...props}
+                    authStatus={authState}
+                    usersPlants={userPlants}
+                    retrieveUserData={getUserData}
+                  />
                 </>
               ) : (
                 <Redirect to="/login" />

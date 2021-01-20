@@ -22,9 +22,17 @@ const UserPlant = styled.div`
   }
 `;
 
-const UserPlants = ({ plantId, plantName, image }) => {
+const UserPlants = ({ plantId, plantName, image, userData }) => {
   const deleteUserPlant = () => {
-    return deleteCurrentUsersPlant(plantId);
+    deleteCurrentUsersPlant(plantId).then(function () {
+      try {
+        userData().then(function () {
+          console.log("plant deleted");
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    });
   };
 
   return (
@@ -32,7 +40,7 @@ const UserPlants = ({ plantId, plantName, image }) => {
       <img src={image} alt={`${plantName}`} />
       <h1>{plantName}</h1>
       <section onClick={deleteUserPlant}>
-        <i class="fas fa-trash-alt"></i>
+        <i className="fas fa-trash-alt"></i>
       </section>
     </UserPlant>
   );
