@@ -56,7 +56,9 @@ const SearchResults = (props) => {
     plantImage = props.image;
     try {
       addToPlantCollection(id, plantName, plantImage);
-      return await props.getUserData();
+      await props.getUserData().then(() => {
+        return props.addModalUpdate(e);
+      });
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +68,9 @@ const SearchResults = (props) => {
     e.preventDefault();
     try {
       await deleteCurrentUsersPlant(currentId);
-      return props.getUserData();
+      await props.getUserData().then(() => {
+        return props.addModalUpdate(e);
+      });
     } catch (error) {
       console.log(error);
     }

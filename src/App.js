@@ -12,6 +12,7 @@ import * as plantsAPI from "./services/api-service";
 import { auth } from "./firebase";
 import firebase from "firebase/app";
 import styled from "styled-components";
+import PlantAddModal from "./components/PlantAddModal/PlantAddModal";
 
 const StyledSearchForm = styled.div`
   min-height: 100vh;
@@ -37,6 +38,8 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [userPlants, setUserPlants] = useState([]);
+  const [plantAdded, setPlantAdded] = useState(false);
+  const [plantDeleted, setPlantDeleted] = useState(false);
   const firestore = firebase.firestore();
 
   useEffect(() => {
@@ -53,8 +56,6 @@ const App = () => {
     };
     return fetchData();
   }, [page, search]);
-
-  console.log("hey");
 
   const userUpdate = (userAuth) => {
     if (userAuth) {
@@ -103,14 +104,29 @@ const App = () => {
   };
 
   const handleChange = (e) => {
+    e.preventDefault();
     setSearch(e.target.value);
+  };
+
+  const addModalChange = (e) => {
+    e.preventDefault();
+    {
+      plantAdded ? setPlantAdded(false) : setPlantAdded(true);
+    }
+    if (plantAdded) {
+      console.log("line 117");
+      return <addModalChange />;
+    } else {
+      return;
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
-  const clearSearch = () => {
+  const clearSearch = (e) => {
+    e.preventDefault();
     setSearch("");
   };
 
@@ -124,12 +140,15 @@ const App = () => {
       authStatus={authState}
       userPlantList={userPlants}
       getUserData={getUserData}
+      addModalUpdate={addModalChange}
     />
   ));
 
   return (
     <>
       <Navbar userStatus={authState} />
+      <button onClick={addModalChange}>add</button>
+      {plantAdded ? <PlantAddModal /> : ""}
       <Switch>
         <Route
           exact
