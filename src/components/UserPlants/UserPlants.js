@@ -22,12 +22,12 @@ const UserPlant = styled.div`
   }
 `;
 
-const UserPlants = ({ plantId, plantName, image, userData }) => {
-  const deleteUserPlant = () => {
+const UserPlants = ({ plantId, plantName, image, userData, deleteModal }) => {
+  const deleteUserPlant = (e) => {
     deleteCurrentUsersPlant(plantId).then(function () {
       try {
         userData().then(function () {
-          console.log("plant deleted");
+          return deleteModal(e);
         });
       } catch (error) {
         console.log(error);

@@ -13,6 +13,7 @@ import { auth } from "./firebase";
 import firebase from "firebase/app";
 import styled from "styled-components";
 import PlantAddModal from "./components/PlantAddModal/PlantAddModal";
+import PlantDeleteModal from "./components/PlantDeleteModal/PlantDeleteModal";
 
 const StyledSearchForm = styled.div`
   min-height: 100vh;
@@ -33,7 +34,6 @@ const StyledSearchForm = styled.div`
 const App = () => {
   const [authState, setAuthState] = useState({});
   const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -110,15 +110,18 @@ const App = () => {
 
   const addModalChange = (e) => {
     e.preventDefault();
-    {
-      plantAdded ? setPlantAdded(false) : setPlantAdded(true);
-    }
-    if (plantAdded) {
-      console.log("line 117");
-      return <addModalChange />;
-    } else {
-      return;
-    }
+    setPlantAdded(true);
+    setTimeout(() => {
+      setPlantAdded(false);
+    }, 3000);
+  };
+
+  const deleteModalChange = (e) => {
+    e.preventDefault();
+    setPlantDeleted(true);
+    setTimeout(() => {
+      setPlantDeleted(false);
+    }, 3000);
   };
 
   const handleSubmit = (e) => {
@@ -141,14 +144,15 @@ const App = () => {
       userPlantList={userPlants}
       getUserData={getUserData}
       addModalUpdate={addModalChange}
+      deleteModalUpdate={deleteModalChange}
     />
   ));
 
   return (
     <>
       <Navbar userStatus={authState} />
-      <button onClick={addModalChange}>add</button>
       {plantAdded ? <PlantAddModal /> : ""}
+      {plantDeleted ? <PlantDeleteModal /> : ""}
       <Switch>
         <Route
           exact
@@ -203,6 +207,10 @@ const App = () => {
               change={handleChange}
               plantItems={items}
               loadingStatus={loading}
+              getUserData={getUserData}
+              userPlantList={userPlants}
+              addModalUpdate={addModalChange}
+              deleteModalUpdate={deleteModalChange}
             />
           )}
         />
@@ -217,6 +225,8 @@ const App = () => {
                     authStatus={authState}
                     usersPlants={userPlants}
                     retrieveUserData={getUserData}
+                    addModalUpdate={addModalChange}
+                    deleteModalUpdate={deleteModalChange}
                   />
                 </>
               ) : (

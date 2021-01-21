@@ -69,7 +69,7 @@ const SearchResults = (props) => {
     try {
       await deleteCurrentUsersPlant(currentId);
       await props.getUserData().then(() => {
-        return props.addModalUpdate(e);
+        props.deleteModalUpdate(e);
       });
     } catch (error) {
       console.log(error);
@@ -99,7 +99,7 @@ const SearchResults = (props) => {
                 plantStatus() ? "add-btn fa fa-leaf" : "add-btn far fa-leaf"
               }
             ></i>
-            Add
+            {!plantStatus() ? "Add" : "Added"}
           </div>
         ) : (
           ""

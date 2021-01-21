@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const AddContainer = styled.div`
+const DeleteContainer = styled.div`
   position: fixed;
   display: flex;
   justify-content: center;
@@ -12,27 +12,27 @@ const AddContainer = styled.div`
   color: white;
 `;
 
-const AddModal = styled.div`
+const DeleteModal = styled.div`
   width: 200px;
   height: 50px;
   font-size: 20px;
   background-color: var(--dark-shadow);
   opacity: 0.9;
   border-radius: 8px;
-  border-left: 20px solid green;
+  border-left: 20px solid red;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const PlantAddModal = () => {
+const PlantDeleteModal = () => {
   return (
     <>
-      <AddContainer>
-        <AddModal>Plant Added</AddModal>
-      </AddContainer>
+      <DeleteContainer>
+        <DeleteModal>Plant Deleted</DeleteModal>
+      </DeleteContainer>
     </>
   );
 };
 
-export default PlantAddModal;
+export default PlantDeleteModal;

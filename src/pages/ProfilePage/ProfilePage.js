@@ -35,7 +35,13 @@ const UserSection = styled.div`
   }
 `;
 
-const ProfilePage = ({ authStatus, usersPlants, retrieveUserData }) => {
+const ProfilePage = ({
+  authStatus,
+  usersPlants,
+  retrieveUserData,
+  addModalUpdate,
+  deleteModalUpdate,
+}) => {
   // const [userPlants, setUserPlants] = useState([]);
   // const firestore = firebase.firestore();
 
@@ -76,6 +82,7 @@ const ProfilePage = ({ authStatus, usersPlants, retrieveUserData }) => {
         plantName={plant.commonName}
         image={plant.image}
         userData={retrieveUserData}
+        deleteModal={deleteModalUpdate}
       />
     );
   });

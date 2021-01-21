@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as plantsAPI from "../../services/plant-service";
+import { addToPlantCollection, deleteCurrentUsersPlant } from "../../firebase";
 
 import styled from "styled-components";
 
@@ -31,16 +32,51 @@ const Divs = styled.div`
 const PlantPage = (props) => {
   const [loading, setLoading] = useState(true);
   const [currentPlant, setCurrentPlant] = useState([]);
+  const [plantAdded, setPlantAdded] = useState();
   const currentPlantId = parseInt(props.match.params.id);
+  const usersPlants = props.userPlantList;
 
   useEffect(() => {
+    const plantStatus = () => {
+      return usersPlants.some((plant) => plant.id === currentPlantId);
+    };
     const fetchIndividualPlant = async () => {
       const plantData = await plantsAPI.getIndividualPlant(currentPlantId);
       setCurrentPlant(plantData.data);
       setLoading(false);
+      setPlantAdded(plantStatus);
     };
     return fetchIndividualPlant();
   }, [currentPlantId]);
+
+  const addToUsersPlants = async (e, id, plantName, plantImage) => {
+    e.preventDefault();
+    id = currentPlantId;
+    plantName = currentPlant.common_name;
+    plantImage = currentPlant.image_url;
+    try {
+      addToPlantCollection(id, plantName, plantImage);
+      await props.getUserData().then(() => {
+        props.addModalUpdate(e);
+        return setPlantAdded(true);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteUserPlant = async (e) => {
+    e.preventDefault();
+    try {
+      await deleteCurrentUsersPlant(currentPlantId);
+      await props.getUserData().then(() => {
+        props.deleteModalUpdate(e);
+        return setPlantAdded(false);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return loading ? (
     <>
@@ -90,7 +126,10 @@ const PlantPage = (props) => {
           ) : (
             ""
           )}
-          <button>Add to Collection</button>
+
+          <button onClick={!plantAdded ? addToUsersPlants : deleteUserPlant}>
+            {!plantAdded ? "Add" : "Added. Delete here."}
+          </button>
         </Divs>
       </Wrapper>
     </StyledPlantPage>
