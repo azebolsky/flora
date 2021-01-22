@@ -1,9 +1,11 @@
-// const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+// "proxy": "https://trefle.io",
+
 const API_TOKEN = process.env.REACT_APP_TREFLE_API_KEY;
 
 function getIndividualPlant(id) {
-  const url = `/api/v1/plants/${id}?token=${API_TOKEN}`;
-  return fetch(url, {
+  const url = `https://trefle.io/api/v1/plants/${id}?token=${API_TOKEN}`;
+  return fetch(proxyUrl + url, {
     accept: "application/json",
   }).then((res) => res.json());
 }
