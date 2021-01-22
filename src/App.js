@@ -31,6 +31,24 @@ const StyledSearchForm = styled.div`
   }
 `;
 
+const NextPageBtn = styled.button`
+  margin: 20px;
+  width: 10%;
+  min-width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--secondary-brand-color);
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  &:hover {
+    background-color: var(--hover-color);
+  }
+`;
+
 const App = () => {
   const [authState, setAuthState] = useState({});
   const [loading, setLoading] = useState(false);
@@ -172,7 +190,7 @@ const App = () => {
                 />
                 <section>{Results}</section>
                 {!search || items.length > 19 ? (
-                  <button onClick={nextPage}>next page</button>
+                  <NextPageBtn onClick={nextPage}>Next</NextPageBtn>
                 ) : (
                   ""
                 )}

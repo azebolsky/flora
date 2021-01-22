@@ -1,8 +1,10 @@
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+// const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+// const dotenv = require("dotenv").config();
+const API_TOKEN = process.env.REACT_APP_TREFLE_API_KEY;
 
 function getPlantsWithSearchAndPageNumber(page, search) {
-  const url = `https://trefle.io/api/v1/plants/search?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}&q=${search}`;
-  return fetch(proxyUrl + url, {
+  const url = `https://trefle.io/api/v1/plants/search?token=${API_TOKEN}&page=${page}&q=${search}`;
+  return fetch(url, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -10,8 +12,8 @@ function getPlantsWithSearchAndPageNumber(page, search) {
 }
 
 function getPlantsWithPageNumber(page) {
-  const url = `https://trefle.io/api/v1/plants?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}`;
-  return fetch(proxyUrl + url, {
+  const url = `https://trefle.io/api/v1/plants?token=${API_TOKEN}&page=${page}`;
+  return fetch(url, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -19,8 +21,8 @@ function getPlantsWithPageNumber(page) {
 }
 
 function getSpeciesWithPageNumber(page) {
-  const url = `https://trefle.io/api/v1/species/678281?token=ga9sPW6MBa8FDVSkKSWemxEqUJvgbKRNRiVYCSLZBms&page=${page}`;
-  return fetch(proxyUrl + url, {
+  const url = `https://trefle.io/api/v1/species/678281?token=${API_TOKEN}&page=${page}`;
+  return fetch(url, {
     headers: {
       "Content-Type": "application/json",
     },
