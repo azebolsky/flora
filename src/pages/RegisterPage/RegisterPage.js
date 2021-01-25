@@ -179,7 +179,7 @@ const RegisterForm = (props) => {
   };
 
   return props.authStatus.authenticated && !error ? (
-    <Redirect to="/profilePage" />
+    <Redirect exact to={`/user/${props.authStatus.id}`} />
   ) : (
     <RegisterWrapper>
       <StyledHeader>Register with</StyledHeader>

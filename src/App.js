@@ -97,11 +97,9 @@ const App = () => {
   };
 
   const getUserData = async () => {
-    console.log("get user data");
     if (firebase.auth().currentUser) {
       try {
         const currentUser = firebase.auth().currentUser;
-        console.log(currentUser);
         const response = await firestore.doc(`users/${currentUser.uid}`).get();
         if (response.exists) {
           const userInfo = response.data();

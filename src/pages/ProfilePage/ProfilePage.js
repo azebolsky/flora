@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Redirect } from "react-router-dom";
 import UserPlants from "../../components/UserPlants/UserPlants";
 import ProfileImage from "../../Assets/Profile Image.png";
-import { auth, deleteUserAccount } from "../../firebase";
+import { auth } from "../../firebase";
 // import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -39,37 +39,8 @@ const ProfilePage = ({
   authStatus,
   usersPlants,
   retrieveUserData,
-  addModalUpdate,
   deleteModalUpdate,
 }) => {
-  // const [userPlants, setUserPlants] = useState([]);
-  // const firestore = firebase.firestore();
-
-  // useEffect(() => {
-  //   const getUserData = async () => {
-  //     if (firebase.auth().currentUser) {
-  //       try {
-  //         const currentUser = firebase.auth().currentUser;
-  //         const response = await firestore
-  //           .doc(`users/${currentUser.uid}`)
-  //           .get();
-  //         if (response.exists) {
-  //           const userInfo = response.data();
-  //           let userPlantList = userInfo.plants;
-  //           setUserPlants(userPlantList);
-  //         }
-  //       } catch (err) {
-  //         console.error(err);
-  //       }
-  //     } else {
-  //       console.log("no user signed in yet");
-  //     }
-  //   };
-  //   return getUserData();
-  // }, []);
-
-  console.log("x");
-
   // const deleteUser = () => {
   //   deleteUserAccount();
   // };

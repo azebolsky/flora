@@ -16,7 +16,7 @@ const StyledResults = styled.div`
   background-color: var(--background-color);
   margin: 10px;
   min-width: 20%;
-  max-width: 50%;
+  max-width: 320px;
   &:hover {
     box-shadow: 1px 1px 8px 1px black;
   }
