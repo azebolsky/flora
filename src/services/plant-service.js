@@ -1,4 +1,4 @@
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+const proxyUrl = "https://api.allorigins.win/raw?url=";
 // "proxy": "https://trefle.io",
 
 const API_TOKEN = process.env.REACT_APP_TREFLE_API_KEY;
