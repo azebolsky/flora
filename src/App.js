@@ -70,7 +70,8 @@ const App = () => {
         ? await plantsAPI.getPlantsWithPageNumber(page)
         : await plantsAPI.getPlantsWithSearchAndPageNumber(page, search);
       setLoading(true);
-      setItems(plantData.data);
+      const parsedPlantData = JSON.parse(plantData);
+      setItems(parsedPlantData.data);
     };
     return fetchData();
   }, [page, search]);
