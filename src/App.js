@@ -71,6 +71,7 @@ const App = () => {
         : await plantsAPI.getPlantsWithSearchAndPageNumber(page, search);
       setLoading(true);
       const parsedPlantData = JSON.parse(plantData);
+      console.log(plantData);
       setItems(parsedPlantData.data);
     };
     return fetchData();

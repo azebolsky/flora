@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const plantsRouter = require("./routes/plants");
-app.use("/plants", plantsRouter);
+app.use("/api/plants", plantsRouter);
 
 app.listen(port, function () {
   console.log("Runnning on " + port);
