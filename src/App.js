@@ -14,6 +14,7 @@ import firebase from "firebase/app";
 import styled from "styled-components";
 import PlantAddModal from "./components/PlantAddModal/PlantAddModal";
 import PlantDeleteModal from "./components/PlantDeleteModal/PlantDeleteModal";
+import Pagination from "./components/Pagination/Pagination";
 
 const StyledSearchForm = styled.div`
   min-height: 100vh;
@@ -31,24 +32,6 @@ const StyledSearchForm = styled.div`
   }
 `;
 
-const NextPageBtn = styled.button`
-  margin: 20px;
-  width: 10%;
-  min-width: 80px;
-  height: 40px;
-  border-radius: 5px;
-  border: none;
-  background-color: var(--secondary-brand-color);
-  color: white;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  outline: none;
-  &:hover {
-    background-color: var(--hover-color);
-  }
-`;
-
 const App = () => {
   const [authState, setAuthState] = useState({});
   const [loading, setLoading] = useState(false);
@@ -58,6 +41,7 @@ const App = () => {
   const [userPlants, setUserPlants] = useState([]);
   const [plantAdded, setPlantAdded] = useState(false);
   const [plantDeleted, setPlantDeleted] = useState(false);
+  const [totalPosts, setTotalPosts] = useState();
   const firestore = firebase.firestore();
 
   useEffect(() => {
@@ -72,7 +56,7 @@ const App = () => {
       setLoading(true);
       const parsedPlantData =
         typeof plantData === "string" ? JSON.parse(plantData) : plantData;
-      console.log(parsedPlantData.data);
+      setTotalPosts(parsedPlantData.meta.total);
       setItems(parsedPlantData.data);
     };
     return fetchData();
@@ -117,9 +101,10 @@ const App = () => {
     }
   };
 
-  const nextPage = () => {
-    let newPage = page;
-    setPage((newPage += 1));
+  const changePage = (e) => {
+    e.preventDefault();
+    let newPage = e.target.id;
+    setPage(parseInt(newPage));
   };
 
   const handleChange = (e) => {
@@ -191,7 +176,11 @@ const App = () => {
                 />
                 <section>{Results}</section>
                 {!search || items.length > 19 ? (
-                  <NextPageBtn onClick={nextPage}>Next</NextPageBtn>
+                  <Pagination
+                    currentPage={page}
+                    changePageNumber={changePage}
+                    totalPosts={totalPosts}
+                  />
                 ) : (
                   ""
                 )}
