@@ -18,6 +18,8 @@ const PageNumber = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: ${(props) =>
+    props.currentPg === "current" ? "green" : ""};
 `;
 
 const PrevPageBtn = styled.button`
@@ -58,46 +60,91 @@ const NextPageBtn = styled.button`
 const Pagination = ({ currentPage, changePageNumber, totalPosts }) => {
   // calculate total amount of pages possible
   // almost 19,000
+  const [pagesDisplayed, setPagesDisplayed] = useState();
+  const [newPages, setNewPages] = useState(true);
+
   const totalPages = Math.round(totalPosts / 20);
-  function range(start, end) {
+  const range = (start, end) => {
     return Array(end - start + 1)
       .fill()
       .map((_, idx) => start + idx);
-  }
-  const pagesDisplayed = range(currentPage, currentPage + 5);
-  // how to take current page and display next 5
-  // ex: << < 2 3 4 5 6 7 > >>
+  };
+  useEffect(() => {
+    const pages = range(currentPage, currentPage + 5);
+    setPagesDisplayed(pages);
+    setNewPages(false);
+    console.log(">>>>>>>>>>>>");
+  }, [newPages]);
 
-  const renderPages = pagesDisplayed.map((page) => {
-    return (
-      <PageNumber id={page} onClick={(e) => changePageNumber(e)}>
-        {page}
-      </PageNumber>
-    );
-  });
+  const nextPageCheck = (e) => {
+    e.preventDefault();
+    if (currentPage === pagesDisplayed[5]) {
+      setNewPages(true);
+    }
+  };
 
-  return (
+  const prevPageCheck = (e) => {
+    e.preventDefault();
+    if (currentPage === pagesDisplayed[0] && currentPage !== 0) {
+      const pages = range(currentPage - 5, currentPage - 1);
+      setPagesDisplayed(pages);
+    }
+  };
+
+  const renderPages = pagesDisplayed
+    ? pagesDisplayed.map((page) => {
+        return (
+          <PageNumber
+            key={page}
+            currentPg={currentPage === page ? "current" : "no"}
+            id={page}
+            onClick={(e) => changePageNumber(e)}
+          >
+            {page}
+          </PageNumber>
+        );
+      })
+    : "";
+
+  return pagesDisplayed ? (
     <PaginatedContainer>
+      <PageNumber id="1" onClick={(e) => changePageNumber(e)}>
+        First
+      </PageNumber>
       <PrevPageBtn
         id={currentPage - 1}
-        onClick={currentPage > 1 ? (e) => changePageNumber(e) : null}
+        onClick={(e) => {
+          changePageNumber(e);
+          prevPageCheck(e);
+        }}
       >
         Previous
       </PrevPageBtn>
-      <pageNumber id="1" onClick={(e) => changePageNumber(e)}>
-        First
-      </pageNumber>
       {renderPages}
-      <PageNumber id={currentPage + 6} onClick={(e) => changePageNumber(e)}>
+      <PageNumber
+        id={pagesDisplayed[5] + 1}
+        onClick={(e) => {
+          changePageNumber(e);
+          setNewPages(true);
+        }}
+      >
         ...
       </PageNumber>
-      <NextPageBtn id={currentPage + 1} onClick={(e) => changePageNumber(e)}>
+      <NextPageBtn
+        id={currentPage + 1}
+        onClick={(e) => {
+          changePageNumber(e);
+          nextPageCheck(e);
+        }}
+      >
         Next
       </NextPageBtn>
-      <pageNumber id={totalPages} onClick={(e) => changePageNumber(e)}>
+      <PageNumber id={totalPages} onClick={(e) => changePageNumber(e)}>
         Last
-      </pageNumber>
+      </PageNumber>
     </PaginatedContainer>
+  ) : (
+    ""
   );
 };
 

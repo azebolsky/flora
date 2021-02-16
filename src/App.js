@@ -175,11 +175,12 @@ const App = () => {
                   clearSearch={clearSearch}
                 />
                 <section>{Results}</section>
-                {!search || items.length > 19 ? (
+                {loading ? (
                   <Pagination
                     currentPage={page}
                     changePageNumber={changePage}
                     totalPosts={totalPosts}
+                    loading={loading}
                   />
                 ) : (
                   ""
