@@ -57,24 +57,29 @@ const NextPageBtn = styled.button`
   }
 `;
 
-const Pagination = ({ currentPage, changePageNumber, totalPosts }) => {
+const Pagination = ({ currentPage, changePageNumber, totalPages }) => {
   // calculate total amount of pages possible
   // almost 19,000
   const [pagesDisplayed, setPagesDisplayed] = useState();
   const [newPages, setNewPages] = useState(true);
 
-  const totalPages = Math.round(totalPosts / 20);
   const range = (start, end) => {
     return Array(end - start + 1)
       .fill()
       .map((_, idx) => start + idx);
   };
+
   useEffect(() => {
-    const pages = range(currentPage, currentPage + 5);
-    setPagesDisplayed(pages);
-    setNewPages(false);
-    console.log(">>>>>>>>>>>>");
-  }, [newPages]);
+    if (totalPages) {
+      const pages =
+        totalPages >= 6
+          ? range(currentPage, currentPage + 5)
+          : range(1, totalPages);
+      console.log(pages);
+      setPagesDisplayed(pages);
+      setNewPages(false);
+    }
+  }, [newPages, totalPages]);
 
   const nextPageCheck = (e) => {
     e.preventDefault();
@@ -85,26 +90,28 @@ const Pagination = ({ currentPage, changePageNumber, totalPosts }) => {
 
   const prevPageCheck = (e) => {
     e.preventDefault();
-    if (currentPage === pagesDisplayed[0] && currentPage !== 0) {
-      const pages = range(currentPage - 5, currentPage - 1);
+    if (currentPage === 1) return;
+    if (currentPage === pagesDisplayed[0] && currentPage > 6) {
+      const pages = range(currentPage - 6, currentPage - 1);
       setPagesDisplayed(pages);
     }
   };
 
-  const renderPages = pagesDisplayed
-    ? pagesDisplayed.map((page) => {
-        return (
-          <PageNumber
-            key={page}
-            currentPg={currentPage === page ? "current" : "no"}
-            id={page}
-            onClick={(e) => changePageNumber(e)}
-          >
-            {page}
-          </PageNumber>
-        );
-      })
-    : "";
+  const renderPages =
+    pagesDisplayed === undefined
+      ? ""
+      : pagesDisplayed.map((page) => {
+          return (
+            <PageNumber
+              key={page}
+              currentPg={currentPage === page ? "current" : "no"}
+              id={page}
+              onClick={(e) => changePageNumber(e)}
+            >
+              {page}
+            </PageNumber>
+          );
+        });
 
   return pagesDisplayed ? (
     <PaginatedContainer>
@@ -112,7 +119,7 @@ const Pagination = ({ currentPage, changePageNumber, totalPosts }) => {
         First
       </PageNumber>
       <PrevPageBtn
-        id={currentPage - 1}
+        id={currentPage === 1 ? currentPage : currentPage - 1}
         onClick={(e) => {
           changePageNumber(e);
           prevPageCheck(e);
@@ -121,15 +128,19 @@ const Pagination = ({ currentPage, changePageNumber, totalPosts }) => {
         Previous
       </PrevPageBtn>
       {renderPages}
-      <PageNumber
-        id={pagesDisplayed[5] + 1}
-        onClick={(e) => {
-          changePageNumber(e);
-          setNewPages(true);
-        }}
-      >
-        ...
-      </PageNumber>
+      {totalPages > 7 ? (
+        <PageNumber
+          id={pagesDisplayed[5] + 1}
+          onClick={(e) => {
+            changePageNumber(e);
+            setNewPages(true);
+          }}
+        >
+          ...
+        </PageNumber>
+      ) : (
+        ""
+      )}
       <NextPageBtn
         id={currentPage + 1}
         onClick={(e) => {
