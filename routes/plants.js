@@ -5,8 +5,6 @@ const API_TOKEN = process.env.TREFLE_API_KEY;
 
 router.get("/", (req, res) => {
   const currentPage = req.query.page;
-  console.log(currentPage);
-  console.log("heyyyy");
   request(
     `https://trefle.io/api/v1/plants?token=${API_TOKEN}&page=${currentPage}`,
     function (error, response, body) {
@@ -18,9 +16,6 @@ router.get("/", (req, res) => {
 router.get("/search", (req, res) => {
   const currentPage = req.query.page;
   const currentSearch = req.query.search;
-  console.log(currentPage);
-  console.log(currentSearch);
-  console.log("heyyyy search");
   request(
     `https://trefle.io/api/v1/plants/search?token=${API_TOKEN}&page=${currentPage}&q=${currentSearch}`,
     function (error, response, body) {
@@ -29,4 +24,4 @@ router.get("/search", (req, res) => {
   );
 });
 
-module.exports = router;
+module.exports = getPlants;
