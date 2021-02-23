@@ -60,6 +60,7 @@ const App = () => {
           : await plantData;
       const allPages = Math.ceil(parsedPlantData.meta.total / 20);
       setTotalPages(allPages);
+      console.log(parsedPlantData);
       setItems(parsedPlantData.data);
     };
     return fetchData();

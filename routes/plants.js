@@ -4,6 +4,7 @@ const request = require("request");
 const API_TOKEN = process.env.TREFLE_API_KEY;
 
 router.get("/", (req, res) => {
+  console.log("hey");
   const currentPage = req.query.page;
   request(
     `https://trefle.io/api/v1/plants?token=${API_TOKEN}&page=${currentPage}`,
@@ -24,4 +25,4 @@ router.get("/search", (req, res) => {
   );
 });
 
-module.exports = getPlants;
+module.exports = router;
