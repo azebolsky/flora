@@ -56,7 +56,7 @@ const App = () => {
       setLoading(true);
       let parsedPlantData, allPages;
       if (typeof plantData === "string") {
-        parsedPlantData = await JSON.parse(plantData);
+        parsedPlantData = JSON.parse(plantData);
         allPages = Math.ceil(parsedPlantData.meta.total / 20);
       }
       // const parsedPlantData =
