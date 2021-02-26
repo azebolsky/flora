@@ -54,11 +54,18 @@ const App = () => {
         ? await plantsAPI.getPlantsWithPageNumber(page)
         : await plantsAPI.getPlantsWithSearchAndPageNumber(page, search);
       setLoading(true);
-      const parsedPlantData =
-        typeof plantData === "string"
-          ? await JSON.parse(plantData)
-          : await plantData;
-      const allPages = Math.ceil(parsedPlantData.meta.total / 20);
+      let parsedPlantData, allPages;
+      if (typeof plantData === "string") {
+        parsedPlantData = await JSON.parse(plantData);
+        allPages = Math.ceil(parsedPlantData.meta.total / 20);
+      }
+      // const parsedPlantData =
+      //   typeof plantData === "string"
+      //     ? await JSON.parse(plantData)
+      //     : await plantData;
+      // const allPages = parsedPlantData
+      //   ? Math.ceil(parsedPlantData.meta.total / 20)
+      //   : "";
       setTotalPages(allPages);
       console.log(parsedPlantData);
       setItems(parsedPlantData.data);
