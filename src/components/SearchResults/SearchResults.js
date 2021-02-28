@@ -15,11 +15,7 @@ const StyledResults = styled.div`
   box-shadow: 1px 1px 3px 1px var(--light-shadow);
   background-color: var(--background-color);
   margin: 10px;
-  min-width: 20%;
-  max-width: 320px;
-  &:hover {
-    box-shadow: 1px 1px 8px 1px black;
-  }
+
   section {
     display: flex;
     flex-direction: column;

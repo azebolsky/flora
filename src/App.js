@@ -15,21 +15,25 @@ import styled from "styled-components";
 import PlantAddModal from "./components/PlantAddModal/PlantAddModal";
 import PlantDeleteModal from "./components/PlantDeleteModal/PlantDeleteModal";
 import Pagination from "./components/Pagination/Pagination";
+import Filter from "./components/Filter/Filter";
 
-const StyledSearchForm = styled.div`
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+const SearchFormContainer = styled.div`
+  height: 100px;
   background-color: var(--background-brand-color);
+`;
 
-  section {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 20px auto;
-  }
+const PlantResultsContainer = styled.div`
+  display: grid;
+  grid-template-columns: 0.5fr 2fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "Filter Plants";
+  width: 100%;
+`;
+
+const PaginationContainer = styled.section`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 const App = () => {
@@ -54,16 +58,11 @@ const App = () => {
         ? await plantsAPI.getPlantsWithPageNumber(page)
         : await plantsAPI.getPlantsWithSearchAndPageNumber(page, search);
       setLoading(true);
-      // if (typeof plantData === "string") {
-      //   parsedPlantData = JSON.parse(plantData);
-      //   allPages = Math.ceil(parsedPlantData.meta.total / 20);
-      // }
       const parsedPlantData =
         typeof plantData === "string"
           ? await JSON.parse(plantData)
           : await plantData;
       const allPages = Math.ceil(parsedPlantData.meta.total / 20);
-      console.log(parsedPlantData);
       setTotalPages(allPages);
       setItems(parsedPlantData.data);
     };
@@ -175,25 +174,30 @@ const App = () => {
                 <div>Loading...</div>
               </>
             ) : (
-              <StyledSearchForm>
-                <SearchForm
-                  searchTerm={search}
-                  onChange={handleChange}
-                  onSubmit={handleSubmit}
-                  clearSearch={clearSearch}
-                />
-                <section>{Results}</section>
-                {loading ? (
+              <>
+                <SearchFormContainer>
+                  <SearchForm
+                    searchTerm={search}
+                    onChange={handleChange}
+                    onSubmit={handleSubmit}
+                    clearSearch={clearSearch}
+                  />
+                </SearchFormContainer>
+                <PlantResultsContainer>
+                  <section>
+                    <Filter />
+                  </section>
+                  <section>{Results}</section>
+                </PlantResultsContainer>
+                <PaginationContainer>
                   <Pagination
                     currentPage={page}
                     changePageNumber={changePage}
                     totalPages={totalPages}
                     loading={loading}
                   />
-                ) : (
-                  ""
-                )}
-              </StyledSearchForm>
+                </PaginationContainer>
+              </>
             )
           }
         />
