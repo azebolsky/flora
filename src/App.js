@@ -57,7 +57,7 @@ const App = () => {
       let parsedPlantData, allPages;
       if (typeof plantData === "string") {
         parsedPlantData = JSON.parse(plantData);
-        allPages = Math.ceil(parsedPlantData.meta.total / 20);
+        // allPages = Math.ceil(parsedPlantData.meta.total / 20);
       }
       // const parsedPlantData =
       //   typeof plantData === "string"
@@ -66,7 +66,7 @@ const App = () => {
       // const allPages = parsedPlantData
       //   ? Math.ceil(parsedPlantData.meta.total / 20)
       //   : "";
-      setTotalPages(allPages);
+      // setTotalPages(allPages);
       console.log(parsedPlantData);
       setItems(parsedPlantData.data);
     };
