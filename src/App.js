@@ -41,7 +41,7 @@ const App = () => {
   const [userPlants, setUserPlants] = useState([]);
   const [plantAdded, setPlantAdded] = useState(false);
   const [plantDeleted, setPlantDeleted] = useState(false);
-  const [totalPages, setTotalPages] = useState();
+  // const [totalPages, setTotalPages] = useState();
   const firestore = firebase.firestore();
 
   useEffect(() => {
@@ -54,10 +54,10 @@ const App = () => {
         ? await plantsAPI.getPlantsWithPageNumber(page)
         : await plantsAPI.getPlantsWithSearchAndPageNumber(page, search);
       setLoading(true);
-      let parsedPlantData, allPages;
+      let parsedPlantData;
       if (typeof plantData === "string") {
         parsedPlantData = JSON.parse(plantData);
-        allPages = Math.ceil(parsedPlantData.meta.total / 20);
+        // allPages = Math.ceil(parsedPlantData.meta.total / 20);
       }
       // const parsedPlantData =
       //   typeof plantData === "string"
@@ -67,7 +67,7 @@ const App = () => {
       //   ? Math.ceil(parsedPlantData.meta.total / 20)
       //   : "";
       console.log(parsedPlantData);
-      setTotalPages(allPages);
+      // setTotalPages(allPages);
       setItems(parsedPlantData.data);
     };
     return fetchData();
@@ -186,16 +186,16 @@ const App = () => {
                   clearSearch={clearSearch}
                 />
                 <section>{Results}</section>
-                {loading ? (
+                {/* {loading ? (
                   <Pagination
                     currentPage={page}
                     changePageNumber={changePage}
-                    totalPages={totalPages}
+                    // totalPages={totalPages}
                     loading={loading}
                   />
                 ) : (
                   ""
-                )}
+                )} */}
               </StyledSearchForm>
             )
           }
