@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import * as plantsAPI from "../../services/plant-service";
+import * as plantsAPI from "../../services/api-service";
 import { addToPlantCollection, deleteCurrentUsersPlant } from "../../firebase";
 
 import styled from "styled-components";
@@ -42,7 +42,9 @@ const PlantPage = (props) => {
     };
     const fetchIndividualPlant = async () => {
       const plantData = await plantsAPI.getIndividualPlant(currentPlantId);
-      setCurrentPlant(plantData.data);
+      const currentPlantData = await JSON.parse(plantData);
+      console.log(currentPlantData);
+      setCurrentPlant(currentPlantData.data);
       setLoading(false);
       setPlantAdded(plantStatus);
     };

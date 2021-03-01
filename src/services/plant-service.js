@@ -1,13 +1,10 @@
-const proxyUrl = "https://api.allorigins.win/raw?url=";
-// "proxy": "https://trefle.io",
+const BASE_URL = "/api/plants";
 
-const API_TOKEN = process.env.REACT_APP_TREFLE_API_KEY;
-
-function getIndividualPlant(id) {
-  const url = `https://trefle.io/api/v1/plants/${id}?token=${API_TOKEN}`;
-  return fetch(proxyUrl + url, {
-    accept: "application/json",
-  }).then((res) => res.json());
-}
+const getIndividualPlant = (id) => {
+  console.log("hey from one plant service");
+  return fetch(BASE_URL + `/?id=${id}`)
+    .then((res) => res.json())
+    .catch((error) => console.log(error));
+};
 
 export { getIndividualPlant };

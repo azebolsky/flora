@@ -9,18 +9,17 @@ const StyledNav = styled.nav`
   font-family: var(--logo-font);
   font-size: 30px;
   padding: 10px 0;
-  background-color: black;
-  color: red;
+  background-color: #049a5b;
   position: sticky;
   top: 0;
 
   a {
     text-decoration: none;
-    color: var(--secondary-brand-color);
+    color: white;
   }
 
   a:hover {
-    color: var(--hover-color);
+    color: #05be70;
   }
 `;
 

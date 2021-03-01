@@ -7,10 +7,21 @@ const getPlantsWithPageNumber = (page) => {
     .catch((error) => console.log(error));
 };
 
-function getPlantsWithSearchAndPageNumber(page, search) {
+const getPlantsWithSearchAndPageNumber = (page, search) => {
   return fetch(BASE_URL + `/search?page=${page}&search=${search}`)
     .then((res) => res.json())
     .catch((error) => console.log(error));
-}
+};
 
-export { getPlantsWithSearchAndPageNumber, getPlantsWithPageNumber };
+const getIndividualPlant = (id) => {
+  console.log("hey from one plant service");
+  return fetch(BASE_URL + `/${id}`)
+    .then((res) => res.json())
+    .catch((error) => console.log(error));
+};
+
+export {
+  getPlantsWithSearchAndPageNumber,
+  getPlantsWithPageNumber,
+  getIndividualPlant,
+};

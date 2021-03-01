@@ -1,43 +1,54 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { addToPlantCollection, deleteCurrentUsersPlant } from "../../firebase";
+import altPlantImage from "../../Assets/alt-plant-image2.jpg";
 import "firebase/auth";
 import "firebase/firestore";
 import styled from "styled-components";
 
 const StyledResults = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-grow: 1;
-  border: 1px solid black;
-  border-radius: 5px;
-  box-shadow: 1px 1px 3px 1px var(--light-shadow);
-  background-color: var(--background-color);
+  border-bottom: 1px solid grey;
   margin: 10px;
-
-  section {
-    display: flex;
-    flex-direction: column;
-    padding: 25px 0;
-  }
-  img {
-    margin: 0 15px;
-    border-radius: 5px;
-  }
   h1 {
     text-align: left;
   }
-  .add-plant-div {
-    cursor: pointer;
-    display: flex;
-    justify-content: flex-end;
-    font-size: 20px;
+`;
+
+const StyledSection = styled.section`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 25px 0;
+
+  div {
+    min-width: 20%;
   }
-  div .add-btn {
-    color: green;
-    font-size: 22px;
-  }
+`;
+
+const StyledImage = styled.img`
+  margin: 0 15px;
+  border-radius: 5px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+`;
+
+const PlantStatus = styled.div`
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 20px;
+  margin-right: 10px;
+`;
+
+const PlantIcon = styled.i`
+  color: green;
+  font-size: 22px;
 `;
 
 const SearchResults = (props) => {
@@ -78,32 +89,30 @@ const SearchResults = (props) => {
 
   return (
     <StyledResults>
-      <img
-        src={props.image}
-        alt={props.commonName}
-        width="100px"
-        height="auto"
-      />
-      <section>
+      <StyledSection>
+        <StyledImage
+          // src={props.image ? props.image : altPlantImage}
+          src={altPlantImage}
+          alt={props.commonName}
+        />
+        <div>
+          <h1>{props.commonName}</h1>
+          <p>{props.familyCommonName}</p>
+        </div>
+        <Link to={`/plants/${props.id}`}>Plant Details</Link>
         {props.authStatus.authenticated ? (
-          <div
-            className="add-plant-div"
+          <PlantStatus
             onClick={plantStatus() ? deleteUserPlant : addToUsersPlants}
           >
-            <i
-              className={
-                plantStatus() ? "add-btn fa fa-leaf" : "add-btn far fa-leaf"
-              }
-            ></i>
+            <PlantIcon
+              className={plantStatus() ? "fa fa-leaf" : "far fa-leaf"}
+            ></PlantIcon>
             {!plantStatus() ? "Add" : "Added"}
-          </div>
+          </PlantStatus>
         ) : (
           ""
         )}
-        <h1>{props.commonName}</h1>
-        <p>{props.familyCommonName}</p>
-        <Link to={`/plants/${props.id}`}>Plant Details</Link>
-      </section>
+      </StyledSection>
     </StyledResults>
   );
 };

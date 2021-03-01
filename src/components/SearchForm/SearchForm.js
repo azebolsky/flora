@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledForm = styled.form`
-  margin: 25px 0 5px 0;
+  padding: 25px 0 25px 0;
   width: 100%;
   display: flex;
   justify-content: center;
+  background-color: #049a5b;
   input {
     width: 50%;
     height: 40px;
@@ -16,6 +17,7 @@ const StyledForm = styled.form`
   }
   p {
     margin-left: 10px;
+    color: white;
   }
 `;
 

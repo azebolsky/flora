@@ -27,7 +27,8 @@ const PlantResultsContainer = styled.div`
   grid-template-columns: 0.5fr 2fr;
   grid-template-rows: 1fr;
   grid-template-areas: "Filter Plants";
-  width: 100%;
+  width: 95%;
+  margin: 0 auto;
 `;
 
 const PaginationContainer = styled.section`
