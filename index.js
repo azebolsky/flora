@@ -18,7 +18,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "build")));
 
 const plantsRouter = require("./routes/plants");
+const filterPlantsRouter = require("./routes/filterPlants");
 app.use("/api/plants", plantsRouter);
+app.use("/api/plantsFilter", filterPlantsRouter);
 
 // if (process.env.NODE_ENV === "production") {
 app.use(express.static(path.join(__dirname, "build")));

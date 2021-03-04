@@ -13,6 +13,7 @@ const ProfileWrapper = styled.section`
   width: 80%;
   margin: 0 auto;
   text-align: center;
+  flex: 1 0 auto;
 
   h3 {
     color: red;

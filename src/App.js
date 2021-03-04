@@ -8,18 +8,37 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import PlantPage from "./pages/PlantPage/PlantPage";
 import SearchResults from "./components/SearchResults/SearchResults";
 import SearchForm from "./components/SearchForm/SearchForm";
-import * as plantsAPI from "./services/api-service";
-import { auth } from "./firebase";
-import firebase from "firebase/app";
-import styled from "styled-components";
 import PlantAddModal from "./components/PlantAddModal/PlantAddModal";
 import PlantDeleteModal from "./components/PlantDeleteModal/PlantDeleteModal";
 import Pagination from "./components/Pagination/Pagination";
 import Filter from "./components/Filter/Filter";
+import Footer from "./components/Footer/Footer";
+import * as plantsAPI from "./services/api-service";
+import * as filterPlantsAPI from "./services/filter-sort";
+import { auth } from "./firebase";
+import firebase from "firebase/app";
+import styled from "styled-components";
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
+  html, body {
+    height: 100vh;
+  }
+
+  #root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+`;
 
 const SearchFormContainer = styled.div`
   height: 100px;
   background-color: var(--background-brand-color);
+`;
+
+const Content = styled.section`
+  flex: 1 0 auto;
 `;
 
 const PlantResultsContainer = styled.div`
@@ -109,6 +128,14 @@ const App = () => {
     }
   };
 
+  const filterFamily = (e) => {
+    e.preventDefault();
+    console.log("hi there buddy");
+    const family = e.target.id;
+    const filterData = filterPlantsAPI.familyFilter(family);
+    // console.log(filterData);
+  };
+
   const changePage = (e) => {
     e.preventDefault();
     let newPage = e.target.id;
@@ -162,6 +189,7 @@ const App = () => {
 
   return (
     <>
+      <GlobalStyle />
       <Navbar userStatus={authState} />
       {plantAdded ? <PlantAddModal /> : ""}
       {plantDeleted ? <PlantDeleteModal /> : ""}
@@ -171,11 +199,11 @@ const App = () => {
           path="/plants"
           render={() =>
             !loading ? (
-              <>
+              <Content>
                 <div>Loading...</div>
-              </>
+              </Content>
             ) : (
-              <>
+              <Content>
                 <SearchFormContainer>
                   <SearchForm
                     searchTerm={search}
@@ -186,7 +214,7 @@ const App = () => {
                 </SearchFormContainer>
                 <PlantResultsContainer>
                   <section>
-                    <Filter />
+                    <Filter filterFunc={filterFamily} />
                   </section>
                   <section>{Results}</section>
                 </PlantResultsContainer>
@@ -198,7 +226,7 @@ const App = () => {
                     loading={loading}
                   />
                 </PaginationContainer>
-              </>
+              </Content>
             )
           }
         />
@@ -258,6 +286,7 @@ const App = () => {
           )}
         />
       </Switch>
+      <Footer />
     </>
   );
 };

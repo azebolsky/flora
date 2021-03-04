@@ -27,7 +27,6 @@ router.get("/search", (req, res) => {
 
 router.get("/:id", (req, res) => {
   const plantId = req.params.id;
-  console.log(plantId);
   request(
     `https://trefle.io/api/v1/plants/${plantId}?token=${API_TOKEN}`,
     function (error, response, body) {
@@ -35,5 +34,16 @@ router.get("/:id", (req, res) => {
     }
   );
 });
+
+// router.get("/", (req, res) => {
+//   const filter = req.query.family;
+//   console.log(filter);
+//   request(
+//     `https://trefle.io/api/v1/plants?token=${API_TOKEN}&filter[family_common_name]=${filter}`,
+//     function (error, response, body) {
+//       res.json(body);
+//     }
+//   );
+// });
 
 module.exports = router;

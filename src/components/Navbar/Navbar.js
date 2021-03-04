@@ -9,7 +9,7 @@ const StyledNav = styled.nav`
   font-family: var(--logo-font);
   font-size: 30px;
   padding: 10px 0;
-  background-color: #049a5b;
+  background-color: var(--primary-color);
   position: sticky;
   top: 0;
 
