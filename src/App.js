@@ -14,7 +14,6 @@ import Pagination from "./components/Pagination/Pagination";
 import Filter from "./components/Filter/Filter";
 import Footer from "./components/Footer/Footer";
 import * as plantsAPI from "./services/api-service";
-import * as filterPlantsAPI from "./services/filter-sort";
 import { auth } from "./firebase";
 import firebase from "firebase/app";
 import styled from "styled-components";
@@ -58,7 +57,7 @@ const PaginationContainer = styled.section`
 
 const App = () => {
   const [authState, setAuthState] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -77,7 +76,7 @@ const App = () => {
       const plantData = !search
         ? await plantsAPI.getPlantsWithPageNumber(page)
         : await plantsAPI.getPlantsWithSearchAndPageNumber(page, search);
-      setLoading(true);
+      setLoading(false);
       const parsedPlantData =
         typeof plantData === "string"
           ? await JSON.parse(plantData)
@@ -128,12 +127,15 @@ const App = () => {
     }
   };
 
-  const filterFamily = (e) => {
+  const filterFamily = async (e) => {
     e.preventDefault();
-    console.log("hi there buddy");
     const family = e.target.id;
-    const filterData = filterPlantsAPI.familyFilter(family);
-    // console.log(filterData);
+    const filterData = await plantsAPI.familyFilter(family);
+    const parsedFilteredData =
+      typeof filterData === "string"
+        ? await JSON.parse(filterData)
+        : await filterData;
+    setItems(parsedFilteredData.data);
   };
 
   const changePage = (e) => {
@@ -198,7 +200,7 @@ const App = () => {
           exact
           path="/plants"
           render={() =>
-            !loading ? (
+            loading ? (
               <Content>
                 <div>Loading...</div>
               </Content>
