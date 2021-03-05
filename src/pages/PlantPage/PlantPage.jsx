@@ -7,6 +7,7 @@ import styled from "styled-components";
 const StyledPlantPage = styled.div`
   min-height: 100%;
   min-width: 100vw;
+  flex: 1 0 auto;
 
   img {
     width: 90%;
