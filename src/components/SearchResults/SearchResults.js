@@ -91,8 +91,7 @@ const SearchResults = (props) => {
     <StyledResults>
       <StyledSection>
         <StyledImage
-          // src={props.image ? props.image : altPlantImage}
-          src={altPlantImage}
+          src={props.image ? props.image : altPlantImage}
           alt={props.commonName}
         />
         <div>

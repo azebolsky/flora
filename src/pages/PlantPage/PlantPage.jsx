@@ -50,7 +50,7 @@ const PlantPage = (props) => {
       setPlantAdded(plantStatus);
     };
     return fetchIndividualPlant();
-  }, [currentPlantId]);
+  }, [currentPlantId, usersPlants]);
 
   const addToUsersPlants = async (e, id, plantName, plantImage) => {
     e.preventDefault();

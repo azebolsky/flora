@@ -15,6 +15,15 @@ const ResultList = styled.div`
   flex-direction: column;
 `;
 
+const StyledButton = styled.button`
+  width: 10px;
+  height: 10px;
+  border: 1px solid black;
+  background-color: ${(props) => (props.showActive ? "blue" : "none")};
+  border-radius: 3px;
+  margin-right: 5px;
+`;
+
 const Families = styled.div`
   display: ${(props) => (props.showResults ? "flex" : "none")};
   flex-direction: row;
@@ -32,10 +41,15 @@ const distributions = [
 ];
 
 const FilterResults = ({ filterFunc }) => {
+  const [activeFilters, setActiveFilters] = useState({
+    family: { 0: false, 1: false, 2: false },
+    native: { 0: false, 1: false, 2: false, 3: false, 4: false, 5: false },
+  });
   const [showResults, setShowResults] = useState({
     family: false,
     native: false,
   });
+
   function handleClick(event) {
     let currentState = showResults[event.target.value];
     setShowResults({
@@ -44,23 +58,50 @@ const FilterResults = ({ filterFunc }) => {
     });
   }
 
-  const familyList = families.map((family) => {
+  const familyList = families.map((family, index) => {
     return (
-      <Families showResults={showResults.family}>
-        <input type="checkbox" id={family} onClick={(e) => filterFunc(e)} />
+      <Families key={family} showResults={showResults.family}>
+        <StyledButton
+          showActive={activeFilters.family[index]}
+          id={family}
+          onClick={(e) => {
+            filterFunc(e);
+            setActiveFilters({
+              ...activeFilters,
+              family: {
+                ...activeFilters.family,
+                [index]: !activeFilters.family[index],
+              },
+            });
+          }}
+        ></StyledButton>
         <p>{family}</p>
       </Families>
     );
   });
 
-  const distributionsList = distributions.map((distribution) => {
+  const distributionsList = distributions.map((distribution, index) => {
     return (
-      <Families showResults={showResults.native}>
-        <input
-          type="checkbox"
+      <Families
+        value={index}
+        key={distribution}
+        showResults={showResults.native}
+      >
+        <StyledButton
+          showActive={activeFilters.native[index]}
+          value={index}
           id={distribution}
-          onClick={(e) => filterFunc(e)}
-        />
+          onClick={(e) => {
+            filterFunc(e);
+            setActiveFilters({
+              ...activeFilters,
+              native: {
+                ...activeFilters.native,
+                [index]: !activeFilters.native[index],
+              },
+            });
+          }}
+        ></StyledButton>
         <p>{distribution}</p>
       </Families>
     );
@@ -83,7 +124,7 @@ const FilterResults = ({ filterFunc }) => {
           handleClick(event);
         }}
       >
-        Native
+        Native Country
       </FilterButton>
       <ResultList>{distributionsList}</ResultList>
     </FilterContainer>

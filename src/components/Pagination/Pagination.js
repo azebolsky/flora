@@ -79,7 +79,7 @@ const Pagination = ({ currentPage, changePageNumber, totalPages }) => {
       setPagesDisplayed(pages);
       setNewPages(false);
     }
-  }, [newPages, totalPages]);
+  }, [newPages, totalPages, currentPage]);
 
   const nextPageCheck = (e) => {
     e.preventDefault();

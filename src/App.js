@@ -72,6 +72,7 @@ const App = () => {
       const userData = userUpdate(userAuth);
       return userData;
     });
+
     const fetchData = async () => {
       const plantData = !search
         ? await plantsAPI.getPlantsWithPageNumber(page)
@@ -85,7 +86,7 @@ const App = () => {
       setTotalPages(allPages);
       setItems(parsedPlantData.data);
     };
-    return fetchData();
+    return () => fetchData();
   }, [page, search]);
 
   const userUpdate = (userAuth) => {
