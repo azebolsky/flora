@@ -41,6 +41,7 @@ const distributions = [
 ];
 
 const FilterResults = ({ filterFunc }) => {
+  const [filtersToPass, setFiltersToPass] = useState("");
   const [activeFilters, setActiveFilters] = useState({
     family: { 0: false, 1: false, 2: false },
     native: { 0: false, 1: false, 2: false, 3: false, 4: false, 5: false },
@@ -58,21 +59,48 @@ const FilterResults = ({ filterFunc }) => {
     });
   }
 
+  const updateFilters = (e, index) => {
+    const currentFilterType = e.target.value;
+    const currentFilterName = e.target.id;
+    // console.log(currentFilterName);
+    // if (activeFilters.family[index]) {
+    //   setFiltersToPass(
+    //     filtersToPass.filter((item) => item !== currentFilterName)
+    //   );
+    // } else {
+    //   setFiltersToPass([...filtersToPass, currentFilterName]);
+    // }
+    if (currentFilterType === "family") {
+      setActiveFilters({
+        ...activeFilters,
+        family: {
+          ...activeFilters.family,
+          [index]: !activeFilters.family[index],
+        },
+      });
+      setFiltersToPass([...filtersToPass, currentFilterName]);
+      console.log(filtersToPass);
+    } else {
+      setActiveFilters({
+        ...activeFilters,
+        native: {
+          ...activeFilters.native,
+          [index]: !activeFilters.native[index],
+        },
+      });
+    }
+    return filterFunc(e, activeFilters.family[index]);
+  };
+
   const familyList = families.map((family, index) => {
     return (
       <Families key={family} showResults={showResults.family}>
         <StyledButton
+          value={"family"}
           showActive={activeFilters.family[index]}
           id={family}
           onClick={(e) => {
-            filterFunc(e);
-            setActiveFilters({
-              ...activeFilters,
-              family: {
-                ...activeFilters.family,
-                [index]: !activeFilters.family[index],
-              },
-            });
+            updateFilters(e, index);
           }}
         ></StyledButton>
         <p>{family}</p>
@@ -92,14 +120,14 @@ const FilterResults = ({ filterFunc }) => {
           value={index}
           id={distribution}
           onClick={(e) => {
-            filterFunc(e);
-            setActiveFilters({
-              ...activeFilters,
-              native: {
-                ...activeFilters.native,
-                [index]: !activeFilters.native[index],
-              },
-            });
+            filterFunc(e, index);
+            // setActiveFilters({
+            //   ...activeFilters,
+            //   native: {
+            //     ...activeFilters.native,
+            //     [index]: !activeFilters.native[index],
+            //   },
+            // });
           }}
         ></StyledButton>
         <p>{distribution}</p>

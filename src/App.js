@@ -61,6 +61,7 @@ const App = () => {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("");
   const [userPlants, setUserPlants] = useState([]);
   const [plantAdded, setPlantAdded] = useState(false);
   const [plantDeleted, setPlantDeleted] = useState(false);
@@ -74,9 +75,17 @@ const App = () => {
     });
 
     const fetchData = async () => {
-      const plantData = !search
-        ? await plantsAPI.getPlantsWithPageNumber(page)
-        : await plantsAPI.getPlantsWithSearchAndPageNumber(page, search);
+      let plantData;
+      if (search) {
+        plantData = await plantsAPI.getPlantsWithSearchAndPageNumber(
+          page,
+          search
+        );
+      } else if (filter) {
+        plantData = await plantsAPI.familyFilter(filter);
+      } else {
+        plantData = await plantsAPI.getPlantsWithPageNumber(page);
+      }
       setLoading(false);
       const parsedPlantData =
         typeof plantData === "string"
@@ -86,8 +95,8 @@ const App = () => {
       setTotalPages(allPages);
       setItems(parsedPlantData.data);
     };
-    return () => fetchData();
-  }, [page, search]);
+    return fetchData();
+  }, [page, search, filter]);
 
   const userUpdate = (userAuth) => {
     if (userAuth) {
@@ -128,15 +137,21 @@ const App = () => {
     }
   };
 
-  const filterFamily = async (e) => {
+  const filterFamily = async (e, status) => {
     e.preventDefault();
-    const family = e.target.id;
-    const filterData = await plantsAPI.familyFilter(family);
-    const parsedFilteredData =
-      typeof filterData === "string"
-        ? await JSON.parse(filterData)
-        : await filterData;
-    setItems(parsedFilteredData.data);
+    const filterValue = e.target.id;
+    if (status) {
+      console.log("hey");
+      setFilter(filter.filter((item) => item !== filterValue));
+    } else {
+      console.log("hey else");
+      setFilter([...filter, filterValue]);
+    }
+    // const filterData = plantsAPI.familyFilter(filter);
+    // await plantsAPI.getPlantsWithPageNumber(page);
+    // const parsedFilteredData =
+    //   typeof filterData === "string" ? JSON.parse(filterData) : filterData;
+    // setItems(parsedFilteredData.data);
   };
 
   const changePage = (e) => {
