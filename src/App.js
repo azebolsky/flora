@@ -13,6 +13,7 @@ import PlantDeleteModal from "./components/PlantDeleteModal/PlantDeleteModal";
 import Pagination from "./components/Pagination/Pagination";
 import Filter from "./components/Filter/Filter";
 import Footer from "./components/Footer/Footer";
+import Home from "./components/Home/Home";
 import * as plantsAPI from "./services/api-service";
 import { auth } from "./firebase";
 import firebase from "firebase/app";
@@ -208,7 +209,7 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <Navbar userStatus={authState} />
+      {/* <Navbar userStatus={authState} /> */}
       {plantAdded ? <PlantAddModal /> : ""}
       {plantDeleted ? <PlantDeleteModal /> : ""}
       <Switch>
@@ -218,10 +219,12 @@ const App = () => {
           render={() =>
             loading ? (
               <Content>
+                <Navbar userStatus={authState} />
                 <div>Loading...</div>
               </Content>
             ) : (
               <Content>
+                <Navbar userStatus={authState} />
                 <SearchFormContainer>
                   <SearchForm
                     searchTerm={search}
@@ -248,38 +251,61 @@ const App = () => {
             )
           }
         />
+        <Route exact path="/" render={() => <Home authStatus={authState} />} />
         <Route
           exact
           path="/login"
-          render={(props) => <LoginPage {...props} authStatus={authState} />}
+          render={(props) => (
+            <>
+              <Navbar userStatus={authState} />
+              <LoginPage {...props} authStatus={authState} />
+              <Footer />
+            </>
+          )}
         />
         <Route
           path="/register"
           render={(history, props) => (
-            <RegisterPage {...props} history={history} authStatus={authState} />
+            <>
+              <Navbar userStatus={authState} />
+              <RegisterPage
+                {...props}
+                history={history}
+                authStatus={authState}
+              />
+              <Footer />
+            </>
           )}
         />
         <Route
           path="/passwordReset"
           render={(props) => (
-            <PasswordReset {...props} authStatus={authState} />
+            <>
+              <Navbar userStatus={authState} />
+              <PasswordReset {...props} authStatus={authState} />
+              <Footer />
+            </>
           )}
         />
         <Route
           exact
           path={"/plants/:id"}
           render={(props) => (
-            <PlantPage
-              {...props}
-              authStatus={authState}
-              change={handleChange}
-              plantItems={items}
-              loadingStatus={loading}
-              getUserData={getUserData}
-              userPlantList={userPlants}
-              addModalUpdate={addModalChange}
-              deleteModalUpdate={deleteModalChange}
-            />
+            <>
+              <Navbar userStatus={authState} />
+              <PlantPage
+                {...props}
+                authStatus={authState}
+                change={handleChange}
+                plantItems={items}
+                loadingStatus={loading}
+                getUserData={getUserData}
+                userPlantList={userPlants}
+                addModalUpdate={addModalChange}
+                deleteModalUpdate={deleteModalChange}
+              />
+              <Footer />
+            </>
           )}
         />
         <Route
@@ -288,6 +314,7 @@ const App = () => {
             <>
               {authState.authenticated ? (
                 <>
+                  <Navbar userStatus={authState} />
                   <ProfilePage
                     {...props}
                     authStatus={authState}
@@ -296,6 +323,7 @@ const App = () => {
                     addModalUpdate={addModalChange}
                     deleteModalUpdate={deleteModalChange}
                   />
+                  <Footer />
                 </>
               ) : (
                 <Redirect to="/login" />
@@ -304,7 +332,6 @@ const App = () => {
           )}
         />
       </Switch>
-      <Footer />
     </>
   );
 };

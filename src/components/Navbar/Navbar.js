@@ -21,13 +21,20 @@ const StyledNav = styled.nav`
   a:hover {
     color: #05be70;
   }
+
+  i {
+    font-size: 40px;
+  }
 `;
 
 const Navbar = ({ userStatus }) => {
   return userStatus.authenticated ? (
     <StyledNav>
+      <NavLink exact to="/">
+        <i className="fab fa-pagelines"></i>
+      </NavLink>
       <NavLink exact to="/plants">
-        All Plants
+        Plants
       </NavLink>
       <NavLink exact to={`/user/${userStatus.id}`}>
         Welcome, {userStatus.displayName}
@@ -35,6 +42,9 @@ const Navbar = ({ userStatus }) => {
     </StyledNav>
   ) : (
     <StyledNav>
+      <NavLink exact to="/">
+        <i className="fab fa-pagelines"></i>
+      </NavLink>
       <NavLink exact to="/plants">
         Plants
       </NavLink>

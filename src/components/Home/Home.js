@@ -1,69 +1,48 @@
-// import React, { useState } from "react";
-// import SearchForm from "../SearchForm/SearchForm";
-// import SearchResults from "../SearchResults/SearchResults";
+import React from "react";
+import { Link } from "react-router-dom";
+import BackgroundImage from "../../Assets/plant-background.jpg";
+import styled from "styled-components";
 
-// import styled from "styled-components";
+const StyledLayout = styled.section`
+  min-height: 100vh;
+  width: 100vw;
+  background: url(${BackgroundImage});
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-// const StyledLayout = styled.div`
-//   min-height: 100vh;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   background-color: var(--background-brand-color);
+  h1 {
+    font-family: var(--logo-font);
+    font-size: 40px;
+    letter-spacing: 0.1em;
+  }
+`;
 
-//   section {
-//     display: flex;
-//     /* flex-direction: column; */
-//     justify-content: center;
-//     flex-wrap: wrap;
-//     margin: 20px auto;
-//   }
-// `;
+const StyledLink = styled.div`
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  a:hover {
+    color: grey;
+  }
+`;
 
-// const Home = (props) => {
-//   const [error, setError] = useState(null);
+const Home = () => {
+  return (
+    <StyledLayout>
+      <h1>Welcome to Flora</h1>
+      <StyledLink>
+        <Link to="/login">Login Here</Link>
+      </StyledLink>
+      <p>or</p>
+      <StyledLink>
+        <Link to="/plants">View Some Plants</Link>
+      </StyledLink>
+    </StyledLayout>
+  );
+};
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//   };
-
-//   const Results = props.plantItems.map((item) => (
-//     <SearchResults
-//       key={item.id}
-//       id={item.id}
-//       image={item.image_url}
-//       commonName={item.common_name}
-//       familyCommonName={item.family_common_name}
-//       authStatus={props.authStatus}
-//       userPlantList={props.userPlants}
-//       getUserData={props.getUserData}
-//     />
-//   ));
-
-//   if (error) {
-//     setError("error has occurred");
-//     return <div>Error: {error}</div>;
-//   } else if (!props.loadingStatus) {
-//     return <div>Loading...</div>;
-//   } else {
-//     return (
-//       <StyledLayout>
-//         <SearchForm
-//           searchTerm={props.searchTerm}
-//           onChange={props.change}
-//           onSubmit={handleSubmit}
-//           clearSearch={props.clearSearch}
-//         />
-//         <section>{Results}</section>
-//         {!props.search || props.items.length > 19 ? (
-//           <button onClick={props.newPage}>next page</button>
-//         ) : (
-//           ""
-//         )}
-//       </StyledLayout>
-//     );
-//   }
-// };
-
-// export default Home;
+export default Home;
