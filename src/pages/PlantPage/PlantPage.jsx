@@ -24,6 +24,7 @@ const Wrapper = styled.section`
   flex-direction: row;
   justify-content: space-between;
   font-size: 20px;
+  flex: 1 0 auto;
 `;
 
 const Divs = styled.div`

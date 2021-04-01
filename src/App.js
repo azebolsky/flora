@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import PlantPage from "./pages/PlantPage/PlantPage";
+import MyPlantsPage from "./pages/MyPlantsPage/MyPlantsPage";
 import SearchResults from "./components/SearchResults/SearchResults";
 import SearchForm from "./components/SearchForm/SearchForm";
 import PlantAddModal from "./components/PlantAddModal/PlantAddModal";
@@ -284,6 +285,29 @@ const App = () => {
               <Navbar userStatus={authState} />
               <PasswordReset {...props} authStatus={authState} />
               <Footer />
+            </>
+          )}
+        />
+        <Route
+          path="/user/:id/plants"
+          render={(props) => (
+            <>
+              {authState.authenticated ? (
+                <>
+                  <Navbar userStatus={authState} />
+                  <MyPlantsPage
+                    {...props}
+                    authStatus={authState}
+                    usersPlants={userPlants}
+                    retrieveUserData={getUserData}
+                    addModalUpdate={addModalChange}
+                    deleteModalUpdate={deleteModalChange}
+                  />
+                  <Footer />
+                </>
+              ) : (
+                <Redirect to="/login" />
+              )}
             </>
           )}
         />

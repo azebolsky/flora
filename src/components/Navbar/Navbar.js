@@ -1,13 +1,15 @@
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
+import ProfileImage from "../../Assets/Profile Image.png";
 import styled from "styled-components";
 
 const StyledNav = styled.nav`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  align-items: center;
   font-family: var(--logo-font);
-  font-size: 30px;
+  font-size: calc(20px + 1vmin);
   padding: 10px 0;
   background-color: var(--primary-color);
   position: sticky;
@@ -25,6 +27,18 @@ const StyledNav = styled.nav`
   i {
     font-size: 40px;
   }
+  .nav-profile {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+const ProfImage = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  align-self: flex-end;
 `;
 
 const Navbar = ({ userStatus }) => {
@@ -36,8 +50,18 @@ const Navbar = ({ userStatus }) => {
       <NavLink exact to="/plants">
         Plants
       </NavLink>
-      <NavLink exact to={`/user/${userStatus.id}`}>
-        Welcome, {userStatus.displayName}
+      <NavLink exact to={`/user/${userStatus.id}/plants`}>
+        Your Garden
+      </NavLink>
+      <NavLink className="nav-profile" exact to={`/user/${userStatus.id}`}>
+        <ProfImage
+          src={userStatus.photoURL ? userStatus.photoURL : ProfileImage}
+        />
+        {userStatus.displayName
+          .split(" ")
+          .map((n) => n[0])
+          .join(".")}
+        .
       </NavLink>
     </StyledNav>
   ) : (

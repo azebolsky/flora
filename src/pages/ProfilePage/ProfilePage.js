@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import UserPlants from "../../components/UserPlants/UserPlants";
 import ProfileImage from "../../Assets/Profile Image.png";
 import { auth } from "../../firebase";
@@ -33,6 +33,30 @@ const UserSection = styled.div`
     width: 150px;
     height: auto;
     border-radius: 50%;
+  }
+`;
+
+const BtnContainer = styled.div`
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const MyPlantsBtn = styled.a`
+  width: 40%;
+  min-width: 200px;
+  height: 75px;
+  border: 2px solid var(--primary-color);
+  background-color: white;
+  border-radius: 5px;
+  font-size: 20px;
+  color: var(--primary-color);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--primary-color);
+    color: white;
   }
 `;
 
@@ -77,24 +101,9 @@ const ProfilePage = ({
           Sign Out
         </button>
       </UserSection>
-      <div>
-        <h1>{authStatus.displayName}'s Plants</h1>
-        <div
-          style={{
-            width: "100%",
-            height: "1px",
-            backgroundColor: "grey",
-            marginBottom: "20px",
-          }}
-        ></div>
-        {usersPlants.length ? (
-          <>{listUserPlants}</>
-        ) : (
-          <>
-            <h3>No plants have been added :(</h3>
-          </>
-        )}
-      </div>
+      <BtnContainer>
+        <Link to={`/user/${authStatus.id}/plants`}>Check Out Your Garden!</Link>
+      </BtnContainer>
     </ProfileWrapper>
   ) : (
     <Redirect to="/login" />
