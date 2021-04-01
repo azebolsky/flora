@@ -1,6 +1,17 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import UserPlants from "../../components/UserPlants/UserPlants";
+import styled from "styled-components";
+
+const UserPlantContainer = styled.div`
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+
+  -webkit-column-gap: 15px;
+  -moz-column-gap: 15px;
+  column-gap: 15px;
+`;
 
 const MyPlantsPage = ({
   authStatus,
@@ -20,28 +31,17 @@ const MyPlantsPage = ({
       />
     );
   });
-  //   return <h1>Plant Page</h1>;
 
   return authStatus.authenticated ? (
     <>
-      <div>
-        <h1>{authStatus.displayName}'s Plants</h1>
-        <div
-          style={{
-            width: "100%",
-            height: "1px",
-            backgroundColor: "grey",
-            marginBottom: "20px",
-          }}
-        ></div>
-        {usersPlants.length ? (
-          <>{listUserPlants}</>
-        ) : (
-          <>
-            <h3>No plants have been added :(</h3>
-          </>
-        )}
-      </div>
+      <h1>{authStatus.displayName}'s Plants</h1>
+      {usersPlants.length ? (
+        <UserPlantContainer>{listUserPlants}</UserPlantContainer>
+      ) : (
+        <>
+          <h3>No plants have been added :(</h3>
+        </>
+      )}
     </>
   ) : (
     <Redirect to="/login" />
