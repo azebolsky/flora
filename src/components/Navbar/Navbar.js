@@ -14,6 +14,7 @@ const StyledNav = styled.nav`
   background-color: var(--primary-color);
   position: sticky;
   top: 0;
+  z-index: 500;
 
   a {
     text-decoration: none;
