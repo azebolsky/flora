@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import MyPlantOptionsModal from "../MyPlantOptionsModal/MyPlantOptionsModal";
 import { deleteCurrentUsersPlant } from "../../firebase";
+
+const ElipsesButton = styled.div`
+  display: none;
+`;
 
 const UserPlant = styled.div`
   display: inline-block;
@@ -14,7 +19,7 @@ const UserPlant = styled.div`
   background-repeat: no-repeat;
 
   h1 {
-    opacity: 0;
+    opacity: 1;
     width: 90%;
     color: white;
     font-size: 30px;
@@ -24,9 +29,8 @@ const UserPlant = styled.div`
   }
 
   section {
-    opacity: 0;
+    opacity: 1;
     width: 10%;
-    color: red;
     z-index: 2;
     margin-right: 10px;
   }
@@ -53,6 +57,17 @@ const UserPlant = styled.div`
       opacity: 1;
     }
   }
+
+  &:hover ${ElipsesButton} {
+    display: block;
+    color: white;
+    font-size: calc(50px - 2vmin);
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 15px 15px 0;
+    padding: 0;
+    z-index: 5;
+  }
 `;
 
 const OnHoverContainer = styled.div`
@@ -60,6 +75,7 @@ const OnHoverContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 `;
 
 const PlantImage = styled.img`
@@ -69,6 +85,8 @@ const PlantImage = styled.img`
 `;
 
 const UserPlants = ({ plantId, plantName, image, userData, deleteModal }) => {
+  const [showModal, setShowModal] = useState(false);
+
   const deleteUserPlant = (e) => {
     deleteCurrentUsersPlant(plantId).then(function () {
       try {
@@ -86,9 +104,13 @@ const UserPlants = ({ plantId, plantName, image, userData, deleteModal }) => {
       <PlantImage src={image} alt={`${plantName}`} />
       <OnHoverContainer>
         <h1>{plantName}</h1>
-        <section onClick={deleteUserPlant}>
+        <ElipsesButton onClick={() => setShowModal(!showModal)}>
+          ...
+        </ElipsesButton>
+        {/* <section onClick={deleteUserPlant}>
           <i className="fas fa-trash-alt"></i>
-        </section>
+        </section> */}
+        {showModal ? <MyPlantOptionsModal /> : ""}
       </OnHoverContainer>
     </UserPlant>
   );

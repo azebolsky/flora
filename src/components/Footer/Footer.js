@@ -6,6 +6,7 @@ const FooterContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-shrink: 0;
+  font-size: 10px;
   background-color: var(--primary-color);
   color: white;
 `;
@@ -13,7 +14,7 @@ const FooterContainer = styled.div`
 const Footer = () => {
   return (
     <FooterContainer>
-      <h1>&copy; Adam Zebolsky 2020</h1>
+      <h1>&copy; Flora 2020</h1>
     </FooterContainer>
   );
 };

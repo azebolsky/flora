@@ -31,6 +31,11 @@ const UserPlantContainer = styled.div`
     -moz-column-count: 2;
     column-count: 2;
   }
+  @media (max-width: 500px) {
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+  }
 `;
 
 const MyPlantsPage = ({
@@ -40,11 +45,6 @@ const MyPlantsPage = ({
   deleteModalUpdate,
 }) => {
   const listUserPlants = usersPlants.map((plant, id) => {
-    const img = new Image();
-    img.onload = function () {
-      console.log(this.width + "x" + this.height);
-    };
-    img.src = `${plant.image}`;
     return (
       <UserPlants
         key={id}
