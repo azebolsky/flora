@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const PlantOptions = styled.section`
@@ -26,11 +27,13 @@ const PlantOptions = styled.section`
   }
 `;
 
-const MyPlantOptionsModal = () => {
+const MyPlantOptionsModal = ({ authStatus, plantId }) => {
   return (
     <>
       <PlantOptions>
-        <div>View Plant Timeline</div>
+        <Link to={`/user/${authStatus.id}/plants/${plantId}`}>
+          View Plant Timeline
+        </Link>
         <div>Add/Edit Pictures</div>
         <div>Remove Plant</div>
       </PlantOptions>

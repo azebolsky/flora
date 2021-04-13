@@ -84,9 +84,15 @@ const PlantImage = styled.img`
   width: 100%;
 `;
 
-const UserPlants = ({ plantId, plantName, image, userData, deleteModal }) => {
+const UserPlants = ({
+  plantId,
+  plantName,
+  image,
+  authStatus,
+  userData,
+  deleteModal,
+}) => {
   const [showModal, setShowModal] = useState(false);
-
   const deleteUserPlant = (e) => {
     deleteCurrentUsersPlant(plantId).then(function () {
       try {
@@ -110,7 +116,11 @@ const UserPlants = ({ plantId, plantName, image, userData, deleteModal }) => {
         {/* <section onClick={deleteUserPlant}>
           <i className="fas fa-trash-alt"></i>
         </section> */}
-        {showModal ? <MyPlantOptionsModal /> : ""}
+        {showModal ? (
+          <MyPlantOptionsModal authStatus={authStatus} plantId={plantId} />
+        ) : (
+          ""
+        )}
       </OnHoverContainer>
     </UserPlant>
   );

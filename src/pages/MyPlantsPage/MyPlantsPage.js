@@ -52,6 +52,7 @@ const MyPlantsPage = ({
         plantName={plant.commonName}
         image={plant.image}
         userData={retrieveUserData}
+        authStatus={authStatus}
         deleteModal={deleteModalUpdate}
       />
     );

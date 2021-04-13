@@ -20,6 +20,7 @@ import { auth } from "./firebase";
 import firebase from "firebase/app";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
+import IndividualPlantPage from "./pages/IndividualPlantPage/IndividualPlantPage";
 
 const GlobalStyle = createGlobalStyle`
   html, body {
@@ -289,6 +290,26 @@ const App = () => {
           )}
         />
         <Route
+          path="/user/:id/plants/:plantid"
+          render={(props) => (
+            <>
+              {authState.authenticated ? (
+                <>
+                  <Navbar userStatus={authState} />
+                  <IndividualPlantPage
+                    {...props}
+                    authStatus={authState}
+                    usersPlants={userPlants}
+                  />
+                  <Footer />
+                </>
+              ) : (
+                <Redirect to="/login" />
+              )}
+            </>
+          )}
+        />
+        <Route
           path="/user/:id/plants"
           render={(props) => (
             <>
@@ -332,6 +353,7 @@ const App = () => {
             </>
           )}
         />
+
         <Route
           path="/user/:id"
           render={(props) => (
