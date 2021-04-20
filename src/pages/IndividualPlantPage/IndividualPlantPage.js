@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { addPlantImage } from "../../firebase";
 import firebase from "firebase/app";
 import styled from "styled-components";
 
 const PlantsContainer = styled.section`
   flex: 1 0 auto;
-  margin: 0 auto;
   text-align: center;
 `;
 
@@ -100,7 +100,42 @@ const IndividualPlantPage = (props) => {
       () => {
         uploadTask.snapshot.ref.getDownloadURL().then((downLoadURL) => {
           console.log("file available at ", downLoadURL);
+          const url = downLoadURL;
+          const plantId = parseInt(props.match.params.plantid);
+          const currentUserId = firebase.auth().currentUser.uid;
+          const userDoc = firebase
+            .firestore()
+            .collection("users")
+            .doc(currentUserId);
+
+          userDoc.get().then((userDoc) => {
+            if (userDoc.exists) {
+              console.log(userDoc.data());
+              // const currentPlantId = userDoc
+              //   .data()
+              //   .plants.findIndex((plant) => plant.id == plantId);
+              // const currentPlants = userDoc.data().plants[currentPlantId];
+              // .plants.filter((plant) => plant.id === plantId);
+              const currentPlantId = currentPlant.id;
+              firebase
+                .firestore()
+                .collection("users")
+                .doc(currentUserId)
+                .update({
+                  [currentPlantId]: firebase.firestore.FieldValue.arrayUnion({
+                    url,
+                  }),
+                });
+            }
+          });
         });
+        // userDoc.update({
+        //   plants: firebase.firestore.FieldValue.arrayUnion({
+        //     id: plantId,
+        //     commonName: plantName,
+        //     image: plantImage,
+        //   }),
+        // });
       }
     );
   };

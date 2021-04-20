@@ -140,6 +140,25 @@ export const addToPlantCollection = (plantId, plantName, plantImage) => {
   });
 };
 
+// export const addPlantImage = (plantId, usersImage) => {
+//   console.log(`image URL-${usersImage}`);
+//   console.log(`id-${plantId}`);
+//   const currentUserId = firebase.auth().currentUser.uid;
+//   console.log(currentUserId);
+//   const userDoc = firebase.firestore().collection("users").doc(currentUserId);
+//   console.log(userDoc);
+//   console.log(`Adding ${plantId}-${plantName} to collection`);
+//   // adds plant to plant array
+//   // arrayUnion prevents a duplicate plant from being added
+//   userDoc.update({
+//     plants: firebase.firestore.FieldValue.arrayUnion({
+//       id: plantId,
+//       commonName: plantName,
+//       image: plantImage,
+//     }),
+//   });
+// };
+
 export const updateUserData = () => {
   const currentUser = firebase.auth().currentUser;
   const uid = currentUser.uid;
