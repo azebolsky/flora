@@ -3,9 +3,15 @@ const BASE_URL_2 = "/api/plantsFilter";
 
 const getPlantsWithPageNumber = (page) => {
   console.log("hey from api-service");
-  return fetch(BASE_URL + `/?page=${page}`)
-    .then((res) => res.json())
-    .catch((error) => console.log(error));
+  return fetch(BASE_URL + `/?page=${page}`).then((res) => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      return new Error("something went wrong");
+    }
+  });
+  // .then((res) => res.json())
+  // .catch((error) => console.log(error));
 };
 
 const getPlantsWithSearchAndPageNumber = (page, search) => {

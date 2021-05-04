@@ -44,7 +44,6 @@ const StyledLink = styled.div`
 `;
 
 const Home = ({ authStatus }) => {
-  console.log(authStatus);
   return (
     <StyledLayout>
       <h1>Welcome to Flora</h1>

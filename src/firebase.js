@@ -136,6 +136,7 @@ export const addToPlantCollection = (plantId, plantName, plantImage) => {
       id: plantId,
       commonName: plantName,
       image: plantImage,
+      userImages: {},
     }),
   });
 };

@@ -58,6 +58,16 @@ const PaginationContainer = styled.section`
   justify-content: center;
 `;
 
+const ErrorStyle = styled.div`
+  width: 100%;
+  color: black;
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
 const App = () => {
   const [authState, setAuthState] = useState({});
   const [loading, setLoading] = useState(true);
@@ -65,6 +75,7 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
+  const [error, setError] = useState(true);
   const [userPlants, setUserPlants] = useState([]);
   const [plantAdded, setPlantAdded] = useState(false);
   const [plantDeleted, setPlantDeleted] = useState(false);
@@ -94,9 +105,10 @@ const App = () => {
         typeof plantData === "string"
           ? await JSON.parse(plantData)
           : await plantData;
-      const allPages = Math.ceil(parsedPlantData.meta.total / 20);
-      setTotalPages(allPages);
-      setItems(parsedPlantData.data);
+      console.log(parsedPlantData);
+      // const allPages = Math.ceil(parsedPlantData.meta.total / 20);
+      // setTotalPages(allPages);
+      // setItems(parsedPlantData.data);
     };
     return fetchData();
   }, [page, search, filter]);
@@ -219,10 +231,12 @@ const App = () => {
           exact
           path="/plants"
           render={() =>
-            loading ? (
+            error ? (
               <Content>
                 <Navbar userStatus={authState} />
-                <div>Loading...</div>
+                <ErrorStyle>
+                  Trefle API currently down for maintenance
+                </ErrorStyle>
               </Content>
             ) : (
               <Content>

@@ -140,20 +140,13 @@ const IndividualPlantPage = (props) => {
     );
   };
 
-  // const handleUpload = (e) => {
-  //   e.preventDefault();
-  //   const uploadTask = storage.ref(`/images/${file.name}`).put(file);
-  //   uploadTask.on("state_changed", console.log, console.error, () => {
-  //     storage
-  //       .ref("images")
-  //       .child(file.name)
-  //       .getDownloadURL()
-  //       .then((url) => {
-  //         setFile(null);
-  //         setURL(url);
-  //       });
-  //   });
-  // };
+  // const showUserImages = () => {
+  //   return (
+  //     <div>
+  //       <img src={plantImage} />
+  //     </div>
+  //   )
+  // }
 
   return !loading ? (
     <PlantsContainer>
