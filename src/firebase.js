@@ -51,6 +51,7 @@ export const signInWithGoogle = () => {
 
 // create a collection for the users which contains docs for each user
 export const generateUserDocument = async (user, additionalData) => {
+  console.log("heyyyy line 54");
   if (!user) return;
   // create reference to the user's document in the users collection
   const userRef = firestore.doc(`users/${user.uid}`);

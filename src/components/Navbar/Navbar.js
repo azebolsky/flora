@@ -59,9 +59,11 @@ const Navbar = ({ userStatus }) => {
           src={userStatus.photoURL ? userStatus.photoURL : ProfileImage}
         />
         {userStatus.displayName
-          .split(" ")
-          .map((n) => n[0])
-          .join(".")}
+          ? userStatus.displayName
+              .split(" ")
+              .map((n) => n[0])
+              .join(".")
+          : "Profile"}
         .
       </NavLink>
     </StyledNav>
